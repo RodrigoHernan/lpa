@@ -1,5 +1,5 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2
-COPY ./src /app
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+COPY ./app /app
 WORKDIR /app
 RUN ["dotnet", "restore"]
 RUN ["dotnet", "build"]
