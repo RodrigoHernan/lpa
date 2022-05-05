@@ -4,5 +4,5 @@ para instalar requisitos de desarrollador, ver: [./docs/dependencias_de_desarrol
 
 ## Correr la aplicación
 ~~~
-cd app && ./run.sh  
+./run.sh  
 ~~~

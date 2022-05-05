@@ -13,6 +13,14 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.breadcrumb {
+  margin-top: 8px;
+  margin-bottom: 0px;
+
+}
+
+@media (min-width: 768px) {
+  .contact-layout {
+    min-height: calc(100vh - 133px);
+  }
 }

@@ -1,0 +1,43 @@
+﻿
+.dbox .icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #98172f;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.dbox .icon span {
+  font-size: 20px;
+  color: #fff;
+}
+
+.dbox p span {
+  font-weight: 500;
+  color: #000;
+}
+
+p {
+  color: #666666;
+}
+
+.dbox p a {
+  color: #46b5d1;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.contact-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-layout .contact-logo {
+  flex-grow: 2;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
