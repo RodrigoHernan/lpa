@@ -48,4 +48,54 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+
+{
+    // var testUsers = new List<ApplicationUser>
+    // {
+    //     new ApplicationUser { 
+    //         Id = "agdasfda1", 
+    //         // FirstName = "Admin", 
+    //         // LastName = "User", 
+    //         Email = "User@mail.com", 
+    //         // Username = "admin", 
+    //         PasswordHash = BCryptNet.HashPassword("admin"), 
+    //         Role = Role.Admin 
+    //     },
+    //     new ApplicationUser { 
+    //         Id = "2sagsdafasf", 
+    //         // FirstName = "Normal", 
+    //         // LastName = "User", 
+    //         Email = "User2@mail.com", 
+    //         // Username = "user", 
+    //         PasswordHash = BCryptNet.HashPassword("user"), 
+    //         Role = Role.User 
+    //     }
+    // };
+    // var roleManager = services
+    //             .GetRequiredService<RoleManager<IdentityRole>>();
+    // testAdmin = new ApplicationUser
+    // {
+    //     UserName = "admin@todo.local",
+    //     Email = "admin@todo.local"
+    // };
+    // await userManager.CreateAsync(
+    //     testAdmin, "NotSecure123!!");
+    // await userManager.AddToRoleAsync(
+    //     testAdmin, Role.Admin);
+
+    SeedData.InitializeAsync(app);
+
+
+    // using var scope = app.Services.CreateScope();
+    // var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+
+
+
+
+    // dataContext.Users.AddRange(testUsers);
+    // dataContext.SaveChanges();
+}
+
+
 app.Run();

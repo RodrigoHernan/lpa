@@ -30,6 +30,9 @@ namespace AspNetCoreTodo.Controllers
             var everyone = await _userManager.Users
                 .ToArrayAsync();
 
+            // var roles = await RoleManager<IdentityRole>.Roles
+            //     .ToArrayAsync();
+
             var model = new ManageUsersViewModel
             {
                 Administrators = admins,

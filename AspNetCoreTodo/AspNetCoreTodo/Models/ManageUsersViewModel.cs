@@ -7,6 +7,8 @@ namespace AspNetCoreTodo.Models
         public ApplicationUser[] Administrators { get; set; }
 
         public ApplicationUser[] Everyone { get; set;}
+
+        // public ApplicationUser[] Roles { get; set;}
     }
 }
 
