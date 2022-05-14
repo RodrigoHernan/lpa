@@ -1,0 +1,26 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.breadcrumb {
+  margin-top: 8px;
+  margin-bottom: 0px;
+
+}
+
+@media (min-width: 768px) {
+  .contact-layout {
+    min-height: calc(100vh - 133px);
+  }
+}
