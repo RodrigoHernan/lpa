@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Inmobiliaria.Models;
 
 namespace Inmobiliaria.Data;
 
@@ -9,4 +10,5 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+    public DbSet<Property> Properties { get; set; }
 }
