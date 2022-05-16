@@ -24,5 +24,24 @@ namespace Inmobiliaria.Services
                 .ToArrayAsync();
             return items;
         }
+
+        public async Task<Property[]> GetProperties()
+        {
+            var items = await _context.Properties
+                .ToArrayAsync();
+            return items;
+        }
+
+        public async Task<bool> AddPropertyAsync(Property newProperty)
+        {
+            newProperty.Id = Guid.NewGuid();
+            newProperty.Created = DateTimeOffset.Now.AddDays(3);
+
+            _context.Properties.Add(newProperty);
+
+            var saveResult = await _context.SaveChangesAsync();
+            return saveResult == 1;
+        }
+
     }
 }

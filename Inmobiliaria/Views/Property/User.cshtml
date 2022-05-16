@@ -13,6 +13,7 @@
   <table class="table table-hover">
       <thead>
           <tr>
+              <td>Ciudad</td>
               <td>Título</td>
               <td>Precio</td>
               <td>Expensas</td>
@@ -25,12 +26,13 @@
       @foreach (var item in Model.Items)
       {
           <tr>
-              <td>
+              @* <td>
                 <form asp-action="MarkDone" method="POST">
                     <input type="checkbox" class="done-checkbox">
                     <input type="hidden" name="id" value="@item.Id">
                 </form>
-              </td>
+              </td> *@
+              <td>@item.City</td>
               <td>@item.Title</td>
               <td>@item.Price</td>
               <td>@item.Taxes</td>
@@ -42,7 +44,7 @@
 </table>
 
     <div class="panel-footer add-item-form">
-      @* @await Html.PartialAsync("AddItemPartial", new TodoItem()) *@
+      @await Html.PartialAsync("AddPropertyPartial", new Property())
     </div>
 
 </div>

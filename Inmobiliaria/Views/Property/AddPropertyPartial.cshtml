@@ -1,0 +1,19 @@
+@model Property
+
+<form asp-action="AddProperty" method="POST">
+    <label asp-for="City">Ciudad</label>
+    <input asp-for="City"><br>
+    <label asp-for="Title">Título</label>
+    <input asp-for="Title"><br>
+    <label asp-for="Description">Descripción</label>
+    <input asp-for="Description"><br>
+    <label asp-for="Price">Precio</label>
+    <input type="number" asp-for="Price"><br>
+    <label asp-for="Taxes">Expensas</label>
+    <input type="number" asp-for="Taxes"><br>
+    <label asp-for="HouseSize">Metros cuadrados</label>
+    <input type="number" asp-for="HouseSize"><br>
+    <label asp-for="Rooms">Habitaciones</label>
+    <input type="number" asp-for="Rooms"><br>
+    <button type="submit">Agregar</button>
+</form>

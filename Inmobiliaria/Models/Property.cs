@@ -23,5 +23,10 @@ namespace Inmobiliaria.Models
 
         public int Rooms { get; set; }
 
+        public DateTimeOffset? Created { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
     }
 }

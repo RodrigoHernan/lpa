@@ -8,5 +8,7 @@ namespace Inmobiliaria.Services
     public interface IPropertyService
     {
         Task<Property[]> GetUserProperties();
+        Task<Property[]> GetProperties();
+        Task<bool> AddPropertyAsync(Property newProperty);
     }
 }

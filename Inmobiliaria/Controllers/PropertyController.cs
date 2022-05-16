@@ -14,9 +14,13 @@ public class PropertyController : Controller
         _propertyService = propertyService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult>  Index()
     {
-        return View();
+        var items = await _propertyService.GetProperties();
+
+        var model = new PropertyViewModel(){ Items = items };
+
+        return View(model);
     }
 
     public async Task<IActionResult> User()
@@ -29,6 +33,23 @@ public class PropertyController : Controller
         };
 
         return View(model);
+    }
+
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddProperty(Property newProperty)
+    {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("User");
+        }
+
+        var successful = await _propertyService.AddPropertyAsync(newProperty);
+        if (!successful)
+        {
+            return BadRequest("Could not add item.");
+        }
+
+        return RedirectToAction("User");
     }
 
 }

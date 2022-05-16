@@ -6,6 +6,13 @@ dotnet new mvc -n src
 dotnet dev-certs https --trust
 ~~~
 
+Crear un nuevo proyecto con auth
+~~~
+dotnet new mvc --auth Individual -o Inmobiliaria
+~~~
+
+
+
 Correr la aplicación
 ~~~
 dotnet watch src
