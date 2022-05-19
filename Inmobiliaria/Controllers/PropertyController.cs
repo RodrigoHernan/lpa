@@ -2,16 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Inmobiliaria.Services;
 using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Inmobiliaria.Controllers;
 
 public class PropertyController : Controller
 {
     private readonly IPropertyService _propertyService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public PropertyController(IPropertyService propertyService)
+    public PropertyController(IPropertyService propertyService, UserManager<ApplicationUser> userManager)
     {
         _propertyService = propertyService;
+        _userManager = userManager;
     }
 
     public async Task<IActionResult>  Index()
@@ -23,9 +27,13 @@ public class PropertyController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> User()
+    [Authorize]
+    public async Task<IActionResult> user()
     {
-        var items = await _propertyService.GetUserProperties();
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null) return Challenge();
+
+        var items = await _propertyService.GetUserProperties(currentUser);
 
         var model = new PropertyViewModel()
         {
@@ -42,8 +50,11 @@ public class PropertyController : Controller
         {
             return RedirectToAction("User");
         }
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null) return Challenge();
 
-        var successful = await _propertyService.AddPropertyAsync(newProperty);
+
+        var successful = await _propertyService.AddPropertyAsync(newProperty, currentUser);
         if (!successful)
         {
             return BadRequest("Could not add item.");

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Inmobiliaria.Services
 {
@@ -17,10 +18,10 @@ namespace Inmobiliaria.Services
             _context = context;
         }
 
-        public async Task<Property[]> GetUserProperties()
+        public async Task<Property[]> GetUserProperties(ApplicationUser user)
         {
             var items = await _context.Properties
-                // .Where(x => x.IsDone == false)
+                .Where(x => x.UserId == user.Id)
                 .ToArrayAsync();
             return items;
         }
@@ -32,10 +33,11 @@ namespace Inmobiliaria.Services
             return items;
         }
 
-        public async Task<bool> AddPropertyAsync(Property newProperty)
+        public async Task<bool> AddPropertyAsync(Property newProperty, ApplicationUser user)
         {
             newProperty.Id = Guid.NewGuid();
             newProperty.Created = DateTimeOffset.Now.AddDays(3);
+            newProperty.UserId = user.Id;
 
             _context.Properties.Add(newProperty);
 
