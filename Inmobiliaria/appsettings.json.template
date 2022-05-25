@@ -1,0 +1,13 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=db;Database=master;User=sa;Password=Your_password123;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "urls":"http://*:7153;https://*:7154",
+  "AllowedHosts": "*"
+}

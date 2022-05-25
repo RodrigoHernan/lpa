@@ -19,3 +19,17 @@ Impactarla en la base de datos
 ~~~
 dotnet ef database update      
 ~~~
+
+
+## base de datos
+~~~
+para correr base de datos, se debe modificar el archivo appsettings.json.template a appsettings.json y colocar las variables de entorno adecuadas
+~~~ 
+
+
+## Usuario admin 
+
+Se debe crear el siguiente usuario: 
+user: admin@gmail.com
+
+al reiniciar la aplicacion, el mismo poseera credenciales de administrador
