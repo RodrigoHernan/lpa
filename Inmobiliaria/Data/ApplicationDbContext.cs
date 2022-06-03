@@ -12,5 +12,6 @@ public class ApplicationDbContext : IdentityDbContext
     }
     public DbSet<Property> Properties { get; set; }
     public DbSet<ApplicationUser> users { get; set; }
+    public DbSet<LogEntry> LogEntries { get; set; }
 
 }
