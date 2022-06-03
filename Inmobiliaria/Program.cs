@@ -47,6 +47,16 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//add default route
+
+
+//Add route /property/id?
+// app.MapControllerRoute(
+//    name: "property",
+//    pattern: "property/{id?}",
+//    defaults: new { controller = "Property", action = "Details" });
+
 app.MapRazorPages();
 
 SeedData.InitializeAsync(app);

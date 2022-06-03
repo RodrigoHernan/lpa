@@ -1,0 +1,36 @@
+﻿@model PropertyViewModel
+@using Humanizer
+
+
+@{
+    ViewData["Title"] = "Detalles del Inmueble";
+}
+
+<div class="panel panel-default todo-panel">
+
+
+<div class="col">
+          <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+              <strong class="d-inline-block mb-2 text-primary">@Model.Items[0].City</strong>
+              <h3 class="mb-0">
+                <a class="text-dark" href="#">@Model.Items[0].Title</a>
+              </h3>
+              <div class="mb-1 text-muted">@Model.Items[0].Created</div>
+              <p class="card-text mb-auto">@Model.Items[0].Description</p>
+			    <h4 >Valor: $ @Model.Items[0].Price</h4>
+			    <h5>Expensas:  @Model.Items[0].Taxes</h5>
+				<h5>Ambientes:  @Model.Items[0].Rooms</h5>
+				<h5>M²:  @Model.Items[0].HouseSize</h5>
+			  
+			 
+            </div>
+            <img class="card-img-right flex-auto d-none d-md-block" src="http://placeimg.com/250/200/arch/@Model.Items[0].Id" alt="Thumbnail [200x250]" style="width: 500px; height: 450px;" data-holder-rendered="true">
+          
+          
+          </div>
+        </div>
+
+
+
+</div>

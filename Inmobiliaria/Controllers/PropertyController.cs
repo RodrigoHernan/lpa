@@ -27,6 +27,21 @@ public class PropertyController : Controller
         return View(model);
     }
 
+    //get details
+    public async Task<IActionResult> Details(string id)
+    {
+        //conver id to Guid
+        var guid = Guid.Parse(id);
+        var item = await _propertyService.GetProperty(guid);
+        Property[] properties = new Property[1];
+        properties[0] = item;
+
+
+        var model = new PropertyViewModel() { Items = properties };
+
+        return View(model);
+    }
+
     [Authorize]
     public async Task<IActionResult> user()
     {
