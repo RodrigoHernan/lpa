@@ -38,36 +38,20 @@ namespace Inmobiliaria.Services
             return items;
         }
 
-        //Create a LogEntry and save 
+        //Create a LogEntry and save
         public async Task<bool> Log(LogLevel level, string message)
         {
             var logEntry = new LogEntry
             {
-                Id = System.Guid.NewGuid(),
+                // Id = System.Guid.NewGuid(),
                 LogLevel = level,
                 Message = message,
-                user = new ApplicationUser(),
-                Exception = null                
+                user = new ApplicationUser()
             };
             _context.LogEntries.Add(logEntry);
             var result = await _context.SaveChangesAsync();
             return result == 1;
 
-        }
-
-        public async Task<bool> Log(LogLevel level, string message, Exception ex)
-        {
-            var logEntry = new LogEntry
-            {
-                Id = System.Guid.NewGuid(),
-                LogLevel = level,
-                Message = message,
-                user = new ApplicationUser(),
-                Exception = ex
-            };
-            _context.LogEntries.Add(logEntry);
-            var result = await _context.SaveChangesAsync();
-            return result == 1;
         }
     }
 }

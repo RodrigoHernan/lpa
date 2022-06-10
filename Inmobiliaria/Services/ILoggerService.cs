@@ -6,7 +6,6 @@ namespace Inmobiliaria.Services
     {
 
         Task<bool> Log(LogLevel level, string message);
-        Task<bool> Log(LogLevel level, string message, Exception ex);
 
         Task<List<LogEntry>> GetAllLogs();
         Task<List<LogEntry>> GetLogsByLevel(LogLevel level);
