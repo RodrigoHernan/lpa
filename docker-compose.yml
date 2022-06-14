@@ -17,11 +17,11 @@ services:
     environment:
         SA_PASSWORD: "Your_password123"
         ACCEPT_EULA: "Y"
-        TRUSTED_CONNECTION: "TRUE" 
+        TRUSTED_CONNECTION: "TRUE"
     ports:
-      - "1433:1433"
+      - "1434:1433"
     volumes:
       - sqlserver-data:/var/opt/mssql
-  
+
 volumes:
   sqlserver-data:

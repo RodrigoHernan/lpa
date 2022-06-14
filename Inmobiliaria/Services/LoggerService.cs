@@ -43,7 +43,6 @@ namespace Inmobiliaria.Services
         {
             var logEntry = new LogEntry
             {
-                // Id = System.Guid.NewGuid(),
                 LogLevel = level,
                 Message = message,
                 user = new ApplicationUser()

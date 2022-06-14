@@ -18,7 +18,7 @@ public class PropertyController : Controller
         _userManager = userManager;
     }
 
-    public async Task<IActionResult>  Index()
+    public async Task<IActionResult> Index()
     {
         var items = await _propertyService.GetProperties();
 
@@ -67,7 +67,6 @@ public class PropertyController : Controller
         }
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return Challenge();
-
 
         var successful = await _propertyService.AddPropertyAsync(newProperty, currentUser);
         if (!successful)

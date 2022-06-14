@@ -13,11 +13,13 @@ namespace Inmobiliaria.Services
 
         //getbyID
         Task<Property> GetProperty(Guid id);
-        
+
         Task<bool> AddPropertyAsync(Property newProperty, ApplicationUser user);
 
-        //TODO agregar metodos RemovePropertyAsync y UpdatePropertyAsync
-         
-         
+        Task<bool> RemovePropertyAsync(Guid id);
+
+        Task<bool> UpdatePropertyAsync(Property property);
+
+
     }
 }
