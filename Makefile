@@ -13,3 +13,6 @@ migrate:
 
 create-migration: ## Create database migration using dotnet ef. Usage: make create-migration name="your-change-description"
 	docker-compose run web dotnet ef migrations add $(name)
+
+install-dev:
+	scripts/install-dev.sh
