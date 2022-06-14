@@ -8,7 +8,7 @@
         "name": ".NET Core Launch (web)",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build",
+        "preLaunchTask": "prelaunch",
         "program": "${workspaceFolder}/Inmobiliaria/bin/Debug/net6.0/Inmobiliaria.dll",
         "args": [],
         "cwd": "${workspaceFolder}/Inmobiliaria",
