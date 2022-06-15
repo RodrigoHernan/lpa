@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Inmobiliaria.Models
 {
-    public class Property
+    public class Property:IEntidadConDigitoVerificador
     {
         public string? UserId { get; set; }
 
@@ -27,6 +27,8 @@ namespace Inmobiliaria.Models
 
         [Required]
         public string City { get; set; }
+
+        public byte[] DVH { get; set; }
 
     }
 }
