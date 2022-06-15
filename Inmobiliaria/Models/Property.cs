@@ -28,7 +28,7 @@ namespace Inmobiliaria.Models
         [Required]
         public string City { get; set; }
 
-        public byte[] DVH { get; set; }
+        public byte[]? DVH { get; set; }
 
     }
 }
