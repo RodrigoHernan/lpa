@@ -14,7 +14,7 @@ namespace Inmobiliaria.Controllers
     {
         private readonly UserManager<ApplicationUser>
             _userManager;
-        
+
         public ManageUsersController(
             UserManager<ApplicationUser> userManager)
         {
@@ -40,6 +40,10 @@ namespace Inmobiliaria.Controllers
             };
 
             return View(model);
+        }
+        public IActionResult DatabaseCorruption()
+        {
+            return View();
         }
     }
 }

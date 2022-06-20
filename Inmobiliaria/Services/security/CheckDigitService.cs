@@ -12,10 +12,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-
-
-
 using System.ComponentModel;
+using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore.Internal;
+
+using Microsoft.EntityFrameworkCore;
+
+
 
 
 namespace Inmobiliaria.Services
@@ -96,7 +100,7 @@ namespace Inmobiliaria.Services
 
                 if (fieldMarkedForRc != null)
                 {
-                    //TODO: Verificar el orden del armado de la semilla, mientras sea la misma version de la clase no importa
+                    //TODO: Verificar el orden de los campos
                     var propertyValueSerialized = Convert.ToString(propertyDescriptor.GetValue(entidad) ?? string.Empty);
                     seed.Append(propertyValueSerialized);
                 }
@@ -105,41 +109,71 @@ namespace Inmobiliaria.Services
             return _hash.CreateHash(seed.ToString());
         }
 
-    public Type[] RecalcularDigitosVerificadores(IdentityDbContext context) {
+    public Type[] RecalcularDigitosVerificadores(ApplicationDbContext context) {
         var grupoDeEntidadesAfectadas = new List<Type>();
         var entidadesMarcadasParaAgregar = context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added);
         var entidadesMarcadasParaEliminar = context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
         var entidadesMarcadasParaModificar = context.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified);
 
-        this.RecalcularDigitosVerificadoresHorizontales(grupoDeEntidadesAfectadas, entidadesMarcadasParaAgregar.Concat(entidadesMarcadasParaModificar)); //Afectan cada Digito Horizontal
-        // this.RecalcularDigitosVerificadoresVerticales(grupoDeEntidadesAfectadas, entidadesMarcadasParaEliminar); //Afectan solo al Digito Vertical
+        this.RecalcularDigitosVerificadoresHorizontales(grupoDeEntidadesAfectadas, entidadesMarcadasParaAgregar.Concat(entidadesMarcadasParaModificar), context);
+        this.RecalcularDigitosVerificadoresVerticales(grupoDeEntidadesAfectadas, entidadesMarcadasParaEliminar); //Afectan solo al Digito Vertical
         return grupoDeEntidadesAfectadas.Distinct().ToArray();
     }
 
-    public void RecalcularDigitosVerificadoresHorizontales(IList<Type> grupoDeEntidadesAfectadas, IEnumerable<EntityEntry> entries) {
+    public void RecalcularDigitosVerificadoresHorizontales(IList<Type> grupoDeEntidadesAfectadas, IEnumerable<EntityEntry> entries, ApplicationDbContext context) {
         foreach (var dbEntityEntry in entries)
         {
             var entidadConDigitoVerificador = dbEntityEntry.Entity as IEntidadConDigitoVerificador;
             if (entidadConDigitoVerificador != null)
             {
-                // entidadConDigitoVerificador.DVH = new byte[] { byte.MaxValue, byte.MaxValue, byte.MaxValue, 0x20, 0x20, 0x20, 0x20 };
                 entidadConDigitoVerificador.DVH = this.CalcularDigitoVerificadorParaEntidad(entidadConDigitoVerificador);
-                // var entityType = ObtenerTipoDeEntidad(entidadConDigitoVerificador);
-                // grupoDeEntidadesAfectadas.Add(entityType);
+                var entityType = entidadConDigitoVerificador;
+                grupoDeEntidadesAfectadas.Add(entityType.GetType());
             }
         }
     }
 
-    // public void RecalcularDigitosVerificadoresVerticales(IList<Type> grupoDeEntidadesAfectadas, IEnumerable<DbEntityEntry> entries)
-    // {
-    //     foreach (var dbEntityEntry in entries)
-    //     {
-    //         var entidadConDigitoVerificador = dbEntityEntry.Entity as IEntidadConDigitoVerificador;
-    //         if (entidadConDigitoVerificador != null)
-    //             grupoDeEntidadesAfectadas.Add(ObtenerTipoDeEntidad(entidadConDigitoVerificador));
+    public void RecalcularDigitosVerificadoresVerticales(IList<Type> grupoDeEntidadesAfectadas, IEnumerable<EntityEntry> entries)
+    {
+        foreach (var dbEntityEntry in entries)
+        {
+            var entidadConDigitoVerificador = dbEntityEntry.Entity as IEntidadConDigitoVerificador;
+            if (entidadConDigitoVerificador != null)
+                grupoDeEntidadesAfectadas.Add(entidadConDigitoVerificador.GetType());
+        }
+    }
 
-    //     }
-    // }
+    public void ActualizarDigitosVerificadoresVerticales(ApplicationDbContext context, Type[] affectedTypes)
+    {
+        if (affectedTypes.Any())
+        {
+            foreach (var affectedGroupType in affectedTypes)
+            {
+                var entityName = affectedGroupType.FullName;
+                var checksum = this.CalculateChecksumForEntityType(context, affectedGroupType);
+                var digitoVerificadorVerticalDbSet = context.Set<VerticalCheckDigit>();
+                var vcd = digitoVerificadorVerticalDbSet.Find(entityName);
+                if (vcd == null)
+                {
+                    vcd = new VerticalCheckDigit();
+                    vcd.Entity = entityName;
+                    digitoVerificadorVerticalDbSet.Add(vcd);
+                }
+
+                vcd.Checksum = checksum;
+            }
+        }
+    }
+
+    private byte[] CalculateChecksumForEntityType(ApplicationDbContext context, Type entityType)
+    {
+        var crcs = new List<byte[]>();
+        IQueryable<IEntidadConDigitoVerificador> dbSet = (IQueryable<IEntidadConDigitoVerificador>)context.GetDbSetFromType(entityType);
+        dbSet.ToList().ForEach(entity => crcs.Add(entity.DVH));
+
+        var verticalChecksum = this.CalcularDigitoVerificadorDesdeMultiplesDigitos(crcs);
+        return verticalChecksum;
+    }
 
     }
 }
