@@ -16,13 +16,11 @@ namespace Inmobiliaria.Controllers
             _userManager;
 
         public ManageUsersController(
-            UserManager<ApplicationUser> userManager)
-        {
+            UserManager<ApplicationUser> userManager) {
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index() {
             var admins = (await _userManager
                 .GetUsersInRoleAsync("Administrator"))
                 .ToArray();
@@ -41,9 +39,26 @@ namespace Inmobiliaria.Controllers
 
             return View(model);
         }
-        public IActionResult DatabaseCorruption()
-        {
+
+        public IActionResult DatabaseCorruption() {
             return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult DatabaseCorruptionPost(DatabaseAction databaseAction) {
+            if (databaseAction.Action == "reset_dv") {
+                return View("Message", new MessageViewModel() {Message="Digitos verificadores restaurados"});
+            }
+            if (databaseAction.Action == "restore") {
+                return View("Message", new MessageViewModel() {Message="Base de datos restaurada"});
+            }
+
+            return View("Message", new MessageViewModel() {Message="Hubo un error"});
+        }
+
+        public IActionResult Message() {
+            var model = new MessageViewModel(){ Message = "sadklfjdsag"};
+            return View(model);
         }
     }
 }

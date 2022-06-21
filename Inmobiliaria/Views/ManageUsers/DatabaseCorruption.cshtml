@@ -1,3 +1,5 @@
+@model MessageViewModel
+
 @{
     ViewData["Title"] = "Corrupción en la base de datos";
 }
@@ -10,6 +12,21 @@
 </p>
 
 <div class="row">
-    <button type="button" class="btn btn-primary">Recalcular los dígitos verificadores</button>
-    <button type="button" class="btn btn-secondary">Restaurar la base de datos al ultimo backup</button>
+    @await Html.PartialAsync(
+        "ExecuteDatabaseAction",
+        new DatabaseAction(){Action="reset_dv"},
+        new ViewDataDictionary(ViewData) {
+            { "Action", "Recalcular los dígitos verificadores" },
+            {"btn", "btn-light"}
+         }
+        )
+
+    @await Html.PartialAsync(
+        "ExecuteDatabaseAction",
+        new DatabaseAction(){Action="restore"},
+        new ViewDataDictionary(ViewData) {
+            { "Action", "Restaurar la base de datos al ultimo backup"},
+            {"btn", "btn-secondary"}
+            }
+        )
 </div>

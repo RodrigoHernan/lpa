@@ -1,0 +1,6 @@
+@model DatabaseAction
+
+<form asp-action="DatabaseCorruptionPost" method="POST">
+    <input type="hidden" asp-for="Action" name="Action" value='@Model.Action'>
+    <button type="submit" class='btn @ViewData["btn"]'>@ViewData["Action"]</button>
+</form>
