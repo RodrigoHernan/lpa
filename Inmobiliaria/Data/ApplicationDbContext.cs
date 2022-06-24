@@ -15,35 +15,37 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+        _checkDigit = new CheckDigitService(this);
     }
-    private readonly CheckDigitService _checkDigit = new CheckDigitService();
+    private readonly CheckDigitService _checkDigit;
 
     public DbSet<Property> Properties { get; set; }
     public DbSet<ApplicationUser> users { get; set; }
     public DbSet<LogEntry> LogEntries { get; set; }
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
 
-    public IQueryable<Object> GetDbSetFromType(Type type)
-    {
+    public IQueryable<Object> GetDbSetFromType(Type type) {
+        return this.GetDbSetFromType(type.FullName);
+    }
+
+    public IQueryable<Object> GetDbSetFromType(string type) {
 
         object dbSet;
-        // return dbSet;
-        // .GetProperty("users")
 
-        switch (type.Name)
+        switch (type)
         {
-            case "Property":
+            case "Inmobiliaria.Models.Property":
                 dbSet = Properties;
                 break;
-            case "ApplicationUser":
+            case "Inmobiliaria.Models.ApplicationUser":
                 dbSet = users;
                 break;
 
-            case "LogEntry":
+            case "Inmobiliaria.Models.LogEntry":
                 dbSet = LogEntries;
                 break;
 
-            case "VerticalCheckDigit":
+            case "Inmobiliaria.Models.VerticalCheckDigit":
                 dbSet = VerticalCheckDigits;
                 break;
             default:
@@ -62,17 +64,17 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public override int SaveChanges() {
-        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores(this);
+        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores();
         var cantidadEntidadesAfectadas = this.DefaultSaveChanges();
-        // _checkDigit.ActualizarDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
+        _checkDigit.ActualizarDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
         this.DefaultSaveChanges();
         return cantidadEntidadesAfectadas;
     }
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
-        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores(this);
+        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores();
         var cantidadEntidadesAfectadas = await this.DefaultSaveChangesAsync(cancellationToken);
-        _checkDigit.ActualizarDigitosVerificadoresVerticales(this, tipoDeEntidadesAfectadas);
+        _checkDigit.ActualizarDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
         await this.DefaultSaveChangesAsync(cancellationToken);
         return cantidadEntidadesAfectadas;
     }

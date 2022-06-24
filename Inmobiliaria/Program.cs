@@ -51,22 +51,17 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//add default route
-
-
-//Add route /property/id?
-// app.MapControllerRoute(
-//    name: "property",
-//    pattern: "property/{id?}",
-//    defaults: new { controller = "Property", action = "Details" });
-
 app.MapRazorPages();
 
 SeedData.InitializeAsync(app);
 
-
+// Digito verificador
 app.Use(async (context, next) => {
-    if (CheckDigitService.DbCorrupta()) {
+    using var scope = app.Services.CreateScope();
+    var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    if (new CheckDigitService(dataContext).DbCorrupta()) {
+    // if (false) {
         context.Response.Redirect("/ManageUsers/DatabaseCorruption");
     } else {
         await next.Invoke();
