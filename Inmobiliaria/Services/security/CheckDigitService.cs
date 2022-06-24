@@ -75,6 +75,9 @@ namespace Inmobiliaria.Services
     {
         private readonly Hash _hash = new Hash();
 
+        public static bool DbCorrupta() {
+            return false;
+        }
 
         public bool EsValido(IEntidadConDigitoVerificador entidad)
         {

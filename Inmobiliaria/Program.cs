@@ -64,4 +64,14 @@ app.MapRazorPages();
 
 SeedData.InitializeAsync(app);
 
+
+app.Use(async (context, next) => {
+    if (CheckDigitService.DbCorrupta()) {
+        context.Response.Redirect("/ManageUsers/DatabaseCorruption");
+    } else {
+        await next.Invoke();
+    }
+});
+
+
 app.Run();

@@ -46,6 +46,16 @@ make install
 [*] v0.1 Login
 [*] v0.2 Registrar
 [*] v0.3 Bitacora
-[ ] v0.4 [Verificar integridad del sistema ( mostrar filas fueron modificadas o eliminadas )](https://www.codeproject.com/Tips/588941/Check-Digit-Vertical-and-Horizontal)
+[ ] v0.4 [Verificar integridad del sistema](https://www.codeproject.com/Tips/588941/Check-Digit-Vertical-and-Horizontal)
 [ ] v0.5 Restaurar o recalcular digitos verificadores
-[ ] v0.6 Backupuai
+[ ] v0.6 Backup
+
+
+En la carpeta falta:
+[ ] Politica de backup
+[ ] ciclo de vida login:
+    - 1ro compuebra si exste usuario logieado
+[ ] tipo de conexion y porque
+[ ] el codigo por capa y explicar las capas.
+[ ] arbol de navegacion
+[ ] tipo de encriptacion
