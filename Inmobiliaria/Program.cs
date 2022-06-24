@@ -59,9 +59,13 @@ SeedData.InitializeAsync(app);
 app.Use(async (context, next) => {
     using var scope = app.Services.CreateScope();
     var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-    if (new CheckDigitService(dataContext).DbCorrupta()) {
-    // if (false) {
+    string path = context.Request.Path.ToString();
+    if (
+        new CheckDigitService(dataContext).DbCorrupta() &&
+        !path.Equals("/ManageUsers/DatabaseCorruption") &&
+        !path.Equals("/Identity/Account/AccessDenied") &&
+        !path.Equals("/Identity/Account/Login")
+    ) {
         context.Response.Redirect("/ManageUsers/DatabaseCorruption");
     } else {
         await next.Invoke();

@@ -24,11 +24,11 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<LogEntry> LogEntries { get; set; }
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
 
-    public IQueryable<Object> GetDbSetFromType(Type type) {
-        return this.GetDbSetFromType(type.FullName);
+    public IQueryable<Object> GetDbSet(Type type) {
+        return this.GetDbSet(type.FullName);
     }
 
-    public IQueryable<Object> GetDbSetFromType(string type) {
+    public IQueryable<Object> GetDbSet(string type) {
 
         object dbSet;
 
@@ -40,11 +40,9 @@ public class ApplicationDbContext : IdentityDbContext
             case "Inmobiliaria.Models.ApplicationUser":
                 dbSet = users;
                 break;
-
             case "Inmobiliaria.Models.LogEntry":
                 dbSet = LogEntries;
                 break;
-
             case "Inmobiliaria.Models.VerticalCheckDigit":
                 dbSet = VerticalCheckDigits;
                 break;

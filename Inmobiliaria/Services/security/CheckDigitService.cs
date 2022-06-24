@@ -85,8 +85,8 @@ namespace Inmobiliaria.Services
 
             foreach (var verticalCheckDigit in _context.VerticalCheckDigits)
             {
-                // if(this.ComprobarIntegridadDV(verticalCheckDigit))
-                //     true;
+                var checksum = this.CalculateChecksum(verticalCheckDigit.Entity);
+                if (!checksum.SequenceEqual(verticalCheckDigit.Checksum)) return true;
             }
             return false;
         }
@@ -166,7 +166,7 @@ namespace Inmobiliaria.Services
             foreach (var affectedGroupType in affectedTypes)
             {
                 var entityName = affectedGroupType.FullName;
-                var checksum = this.CalculateChecksumForEntityType(affectedGroupType);
+                var checksum = this.CalculateChecksum(affectedGroupType);
                 var digitoVerificadorVerticalDbSet = _context.Set<VerticalCheckDigit>();
                 var vcd = digitoVerificadorVerticalDbSet.Find(entityName);
                 if (vcd == null)
@@ -181,14 +181,18 @@ namespace Inmobiliaria.Services
         }
     }
 
-    private byte[] CalculateChecksumForEntityType(Type entityType)
-    {
+    private byte[] CalculateChecksum(string entityType) {
         var crcs = new List<byte[]>();
-        IQueryable<IEntidadConDigitoVerificador> dbSet = (IQueryable<IEntidadConDigitoVerificador>) _context.GetDbSetFromType(entityType);
+        IQueryable<IEntidadConDigitoVerificador> dbSet = (IQueryable<IEntidadConDigitoVerificador>) _context.GetDbSet(entityType);
         dbSet.ToList().ForEach(entity => crcs.Add(entity.DVH));
 
         var verticalChecksum = this.CalcularDigitoVerificadorDesdeMultiplesDigitos(crcs);
         return verticalChecksum;
+    }
+
+
+    private byte[] CalculateChecksum(Type entityType) {
+        return this.CalculateChecksum(entityType.FullName);
     }
 
     }
