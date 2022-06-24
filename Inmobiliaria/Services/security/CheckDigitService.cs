@@ -121,8 +121,7 @@ namespace Inmobiliaria.Services
             var tipoEntidad = entidad.GetType();
             foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(tipoEntidad)) {
                 var fieldMarkedForRc = propertyDescriptor.Attributes;
-                    // .OfType<DatoSensibleAttribute>()
-                    // .FirstOrDefault();
+
                 if (fieldMarkedForRc != null && propertyDescriptor.Name != "DVH") {
                     //TODO: Verificar el orden de los campos
                     var propertyValueSerialized = Convert.ToString(propertyDescriptor.GetValue(entidad) ?? string.Empty);
@@ -142,12 +141,7 @@ namespace Inmobiliaria.Services
 
     public Type[] RecalcularDigitosVerificadoresHorizontales(bool allValues=false) {
         var grupoDeEntidadesAfectadas = new List<Type>();
-        // var entries = new List<Object>();
-        // IEnumerable<EntityEntry> entries = null;
         IEnumerable<Object> entries = Enumerable.Empty<Object>();
-
-        // var entries = new List<EntityEntry>();
-        // var entidadesMarcadasParaEliminar = _context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
 
         if (allValues) {
             foreach (var verticalCheckDigit in _context.VerticalCheckDigits) {
@@ -180,14 +174,8 @@ namespace Inmobiliaria.Services
                 grupoDeEntidadesAfectadas.Add(entityType.GetType());
             }
         }
-
-        // this.RecalcularDigitosVerificadoresVerticales(grupoDeEntidadesAfectadas, entidadesMarcadasParaEliminar); //Afectan solo al Digito Vertical
         return grupoDeEntidadesAfectadas.Distinct().ToArray();
     }
-
-    // public void RecalcularDigitosVerificadoresHorizontales(IList<Type> grupoDeEntidadesAfectadas, IEnumerable<EntityEntry> entries) {
-
-    // }
 
     public void RecalcularDigitosVerificadoresVerticales(IList<Type> grupoDeEntidadesAfectadas) {
         var entries = _context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted);
