@@ -14,11 +14,9 @@ namespace Inmobiliaria.Services
         private readonly ApplicationDbContext _context;
         private readonly ILoggerService _logger;
 
-        public PropertyService(ApplicationDbContext context, ILoggerService logger)
-        {
+        public PropertyService(ApplicationDbContext context, ILoggerService logger) {
             _context = context;
             _logger = logger;
-            // _logger = new LoggerService(context);
         }
 
         public async Task<Property[]> GetUserProperties(ApplicationUser user)
@@ -40,7 +38,7 @@ namespace Inmobiliaria.Services
         {
             await _logger.Log(LogLevel.Debug, $"Adding property {newProperty.Title}");
             newProperty.Id = Guid.NewGuid();
-            newProperty.Created = DateTimeOffset.Now.AddDays(3);
+            newProperty.Created = DateTimeOffset.Now;
             newProperty.UserId = user.Id;
 
             _context.Properties.Add(newProperty);

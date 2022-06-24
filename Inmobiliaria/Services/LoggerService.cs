@@ -8,8 +8,7 @@ namespace Inmobiliaria.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public LoggerService(ApplicationDbContext context)
-        {
+        public LoggerService(ApplicationDbContext context) {
             _context = context;
         }
 

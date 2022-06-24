@@ -61,10 +61,12 @@ app.Use(async (context, next) => {
     var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     string path = context.Request.Path.ToString();
     if (
-        new CheckDigitService(dataContext).DbCorrupta() &&
         !path.Equals("/ManageUsers/DatabaseCorruption") &&
         !path.Equals("/Identity/Account/AccessDenied") &&
-        !path.Equals("/Identity/Account/Login")
+        !path.Equals("/Identity/Account/Login") &&
+        !path.Equals("/ManageUsers/DatabaseCorruptionPost") &&
+        !path.Equals("/Identity/Account/Logout") &&
+        new CheckDigitService(dataContext).DbCorrupta()
     ) {
         context.Response.Redirect("/ManageUsers/DatabaseCorruption");
     } else {

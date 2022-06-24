@@ -62,17 +62,17 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public override int SaveChanges() {
-        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores();
+        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadoresHorizontales();
         var cantidadEntidadesAfectadas = this.DefaultSaveChanges();
-        _checkDigit.ActualizarDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
+        _checkDigit.RecalcularDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
         this.DefaultSaveChanges();
         return cantidadEntidadesAfectadas;
     }
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
-        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadores();
+        var tipoDeEntidadesAfectadas = _checkDigit.RecalcularDigitosVerificadoresHorizontales();
         var cantidadEntidadesAfectadas = await this.DefaultSaveChangesAsync(cancellationToken);
-        _checkDigit.ActualizarDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
+        _checkDigit.RecalcularDigitosVerificadoresVerticales(tipoDeEntidadesAfectadas);
         await this.DefaultSaveChangesAsync(cancellationToken);
         return cantidadEntidadesAfectadas;
     }

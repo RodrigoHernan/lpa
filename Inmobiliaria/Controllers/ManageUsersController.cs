@@ -4,20 +4,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Inmobiliaria.Models;
 using Microsoft.EntityFrameworkCore;
+
+using Inmobiliaria.Models;
+using Inmobiliaria.Services;
+using Inmobiliaria.Data;
+
 
 namespace Inmobiliaria.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    // [Authorize(Roles = "Administrator")]
     public class ManageUsersController : Controller
     {
-        private readonly UserManager<ApplicationUser>
-            _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CheckDigitService _checkDigit;
 
-        public ManageUsersController(
-            UserManager<ApplicationUser> userManager) {
+        public ManageUsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context) {
             _userManager = userManager;
+            _checkDigit = new CheckDigitService(context);
         }
 
         public async Task<IActionResult> Index() {
@@ -47,6 +51,7 @@ namespace Inmobiliaria.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DatabaseCorruptionPost(DatabaseAction databaseAction) {
             if (databaseAction.Action == "reset_dv") {
+                _checkDigit.ResetDV();
                 return View("Message", new MessageViewModel() {Message="Digitos verificadores restaurados"});
             }
             if (databaseAction.Action == "restore") {
