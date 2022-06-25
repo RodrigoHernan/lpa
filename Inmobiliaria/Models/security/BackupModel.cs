@@ -10,7 +10,7 @@ namespace Inmobiliaria.Models
 
         public override string ToString()
         {
-            return string.Format("{0} [{1:yyyy-MM-dd HH:mm:ss}]", this.Nombre, this.Fecha);
+            return string.Format("{0} [{1:yyyy-MM-dd HH:mm:ss}] - {2}", this.Nombre, this.Fecha, this.RutaDelArchivo);
         }
     }
 }

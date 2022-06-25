@@ -47,9 +47,9 @@ namespace Inmobiliaria.Services
                 _masterDbConnection = new SqlConnection(masterCnnString);
             }
 
-            public string Backup(string name)
+            public bool Backup(string backup_name)
             {
-                var sql = string.Format("BACKUP DATABASE [{0}] TO DISK = '{1}_{2:yyyyMMddhhmmss}.bak'", _databaseName, name, DateTime.Now);
+                var sql = string.Format("BACKUP DATABASE [{0}] TO DISK = '{1}'", _databaseName, backup_name);
                 _currentDatabase.ExecuteSqlRaw(sql);
                 return true;
             }
@@ -61,8 +61,8 @@ namespace Inmobiliaria.Services
                 {
 
                     var command = _masterDbConnection.CreateCommand();
-                    // command.CommandText = string.Format("use master ALTER DATABASE {0} SET SINGLE_USER WITH ROLLBACK IMMEDIATE ", _databaseName);
-                    // command.ExecuteNonQuery();
+                    command.CommandText = string.Format("use master ALTER DATABASE {0} SET SINGLE_USER WITH ROLLBACK IMMEDIATE ", _databaseName);
+                    command.ExecuteNonQuery();
 
 
                     var sql = string.Format("RESTORE DATABASE [{0}] FROM DISK = '{1}' WITH RECOVERY, REPLACE", _databaseName, name);
@@ -116,11 +116,13 @@ namespace Inmobiliaria.Services
         }
 
         public async Task<bool> CrearPuntoRestauracion(string nombre) {
-            _backupManager.Backup(nombre);
+            string backup_name = string.Format("{0}_{1:yyyyMMddhhmmss}.bak", nombre, DateTime.Now);
             _context.Backups.Add(
-                new BackupModel {Fecha = DateTime.Now, RutaDelArchivo = nombre + ".bak", Nombre = nombre}
+                new BackupModel {Fecha = DateTime.Now, RutaDelArchivo = backup_name, Nombre = nombre}
             );
             var result = await _context.SaveChangesAsync();
+
+            _backupManager.Backup(backup_name);
             return result == 1;
         }
 
