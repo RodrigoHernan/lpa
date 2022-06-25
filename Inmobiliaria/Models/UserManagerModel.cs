@@ -8,6 +8,7 @@ namespace Inmobiliaria.Models
     {
         // public virtual string Email { get; set; } // example, not necessary
         // public Role Role { get; set; }
+        public int InvalidPasswordAttempt { get; set; }
     }
 
     public static class Role
