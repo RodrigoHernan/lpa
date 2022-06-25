@@ -18,10 +18,12 @@ namespace Inmobiliaria.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CheckDigitService _checkDigit;
+        private readonly BackupRestore _backupRestore;
 
         public ManageUsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context) {
             _userManager = userManager;
             _checkDigit = new CheckDigitService(context);
+            _backupRestore = new BackupRestore(context);
         }
 
         public async Task<IActionResult> Index() {
@@ -49,13 +51,18 @@ namespace Inmobiliaria.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult DatabaseCorruptionPost(DatabaseAction databaseAction) {
+        public async Task<IActionResult> DatabaseCorruptionPost(DatabaseAction databaseAction) {
+
             if (databaseAction.Action == "reset_dv") {
                 _checkDigit.ResetDV();
                 return View("Message", new MessageViewModel() {Message="Digitos verificadores restaurados"});
             }
             if (databaseAction.Action == "restore") {
                 return View("Message", new MessageViewModel() {Message="Base de datos restaurada"});
+            }
+            if (databaseAction.Action == "backup") {
+                await _backupRestore.CrearPuntoRestauracion("backup");
+                return View("Message", new MessageViewModel() {Message="Backup realizado"});
             }
 
             return View("Message", new MessageViewModel() {Message="Hubo un error"});
@@ -65,5 +72,24 @@ namespace Inmobiliaria.Controllers
             var model = new MessageViewModel(){ Message = "sadklfjdsag"};
             return View(model);
         }
+
+        public async Task<IActionResult>  Backup() {
+
+
+            var items = await _backupRestore.GetAll();
+
+            var model = new BackupViewModel(){ Items = items };
+
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestorePost(RestoreAction restoreAction) {
+            await _backupRestore.Restore(restoreAction.RestoreId);
+            return View("Message", new MessageViewModel() {Message="Restore realizado"});
+        }
+
+
+
     }
 }

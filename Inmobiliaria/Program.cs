@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ILoggerService, LoggerService>();
+builder.Services.AddScoped<IBackupRestore, BackupRestore>();
 
 var app = builder.Build();
 

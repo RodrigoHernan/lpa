@@ -23,6 +23,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<ApplicationUser> users { get; set; }
     public DbSet<LogEntry> LogEntries { get; set; }
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
+    public DbSet<BackupModel> Backups { get; set; }
 
     public IQueryable<Object> GetDbSet(Type type) {
         return this.GetDbSet(type.FullName);

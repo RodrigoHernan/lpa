@@ -1,0 +1,34 @@
+@model BackupViewModel
+
+@{
+    ViewData["Title"] = "Administrador de la base de datos";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    que desea hacer:
+</p>
+
+<div class="row">
+    Backup:
+    @await Html.PartialAsync(
+        "ExecuteDatabaseAction",
+        new DatabaseAction(){Action="backup"},
+        new ViewDataDictionary(ViewData) {
+            { "Action", "Realizar backup"},
+            {"btn", "btn-primary"}
+            }
+        )
+
+
+    Restore:
+        @await Html.PartialAsync(
+        "ExecuteRestoreAction",
+        new RestoreAction(),
+        new ViewDataDictionary(ViewData) {
+            { "BackupViewModel", Model},
+            }
+        )
+
+</div>

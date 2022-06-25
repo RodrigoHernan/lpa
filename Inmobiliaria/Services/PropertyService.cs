@@ -49,8 +49,7 @@ namespace Inmobiliaria.Services
 
         public async Task<Property> GetProperty(Guid id){
 
-            var item = await _context.Properties
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Properties.FirstOrDefaultAsync(x => x.Id == id);
             return item;
         }
 
