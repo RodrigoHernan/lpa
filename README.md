@@ -52,13 +52,13 @@ make install
 [*] v0.7 Usuario: bloquear luego de 3 intentos
 [*] v0.8 ABM
 [ ] v0.9 Usuario, familia, patente
-[ ] v0.10 Filtro de fecha en consulta de bitacora
+[ ] v0.10 Filtro de usuario en consulta de bitacora
 
 En la carpeta falta:
-[ ] Politica de backup
-[ ] ciclo de vida login:
+[*] Politica de backup
+[*] ciclo de vida login:
     - 1ro compuebra si exste usuario logieado
-[ ] tipo de conexion y porque
+[*] tipo de conexion y porque
 [ ] el codigo por capa y explicar las capas.
 [ ] arbol de navegacion
-[ ] tipo de encriptacion
+[*] tipo de encriptacion

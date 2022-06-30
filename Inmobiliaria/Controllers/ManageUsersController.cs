@@ -88,8 +88,5 @@ namespace Inmobiliaria.Controllers
             await _backupRestore.Restore(restoreAction.RestoreId);
             return View("Message", new MessageViewModel() {Message="Restore realizado"});
         }
-
-
-
     }
 }
