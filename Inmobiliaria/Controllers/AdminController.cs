@@ -32,7 +32,7 @@ public class AdminController : Controller
 
         var items = await _claims.GetAll();
         // var model = new ClaimsViewModel(){ Items = items };
-        return View(model);
+        return View();
     }
 
 }

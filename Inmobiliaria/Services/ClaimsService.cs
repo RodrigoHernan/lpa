@@ -6,14 +6,15 @@ namespace Inmobiliaria.Services
 {
     public interface IClaimService
     {
-        List<Claim> GetAll();
+        Task<List<ClaimModel>> GetAll();
     }
     public class ClaimService : IClaimService
     {
-        public List<Claim> GetAll()
+        public Task<List<ClaimModel>> GetAll()
         {
-            return [];
+            // return [];
             // return await _context.LogEntries.ToListAsync();
+            return null;
         }
     }
 }
