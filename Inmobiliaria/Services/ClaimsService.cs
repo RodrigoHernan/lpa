@@ -13,7 +13,6 @@ namespace Inmobiliaria.Services
         public Task<List<ClaimModel>> GetAll()
         {
             // return [];
-            // return await _context.LogEntries.ToListAsync();
             return null;
         }
     }

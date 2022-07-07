@@ -10,12 +10,9 @@ public class AdminController : Controller
     private readonly ILoggerService _logger;
     private readonly IClaimService _claims;
 
-    // public AdminController(ILoggerService logger, IClaimService _claims) {
-    //     _logger = logger;
-    //     _claims = _claims;
-    // }
-    public AdminController(ILoggerService logger) {
+    public AdminController(ILoggerService logger, IClaimService _claims) {
         _logger = logger;
+        _claims = _claims;
     }
 
     public IActionResult Index()
@@ -24,7 +21,6 @@ public class AdminController : Controller
     }
 
     public async Task<IActionResult> Logs(string? user, DateTime? startDate, DateTime? endDate) {
-
         List<LogEntry> items;
         if (startDate != null || endDate != null) {
             items = await _logger.GetLogsByDateRange(
@@ -44,7 +40,7 @@ public class AdminController : Controller
     }
 
 
-    public async Task<IActionResult> Claims(string? user) {
+    public async Task<IActionResult> Claims() {
 
         // var items = await _claims.GetAll();
         // var model = new ClaimsViewModel(){ Items = items };
