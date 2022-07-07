@@ -6,11 +6,11 @@ namespace Inmobiliaria.Services
 {
     public interface IClaimService
     {
-        Task<List<ClaimModel>> GetAll();
+        Task<List<PermisoModel>> GetAll();
     }
     public class ClaimService : IClaimService
     {
-        public Task<List<ClaimModel>> GetAll()
+        public Task<List<PermisoModel>> GetAll()
         {
             // return [];
             return null;
