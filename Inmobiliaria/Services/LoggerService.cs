@@ -7,7 +7,7 @@ namespace Inmobiliaria.Services
     public interface ILoggerService
     {
 
-        Task<bool> Log(LogLevel level, string message);
+        Task<bool> Log(LogLevel level, string message, ApplicationUser user);
 
         Task<List<LogEntry>> GetAllLogs();
         Task<List<LogEntry>> GetLogsByLevel(LogLevel level);
@@ -50,13 +50,12 @@ namespace Inmobiliaria.Services
         }
 
         //Create a LogEntry and save
-        public async Task<bool> Log(LogLevel level, string message)
-        {
+        public async Task<bool> Log(LogLevel level, string message, ApplicationUser user) {
             var logEntry = new LogEntry
             {
                 LogLevel = level,
                 Message = message,
-                user = new ApplicationUser()
+                user = user
             };
             _context.LogEntries.Add(logEntry);
             var result = await _context.SaveChangesAsync();

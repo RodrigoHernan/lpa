@@ -1,33 +1,60 @@
 @model LogEntryViewModel
-
+@using Humanizer
 
 @{
     ViewData["Title"] = "Logs";
+    string stringEndDate = Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : "";
+    string stringStartDate = Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "";
 }
 
 <div class="panel panel-default todo-panel">
-  <div class="panel-heading">@ViewData["Title"]</div>
 
-  <table class="table table-hover">
-      <thead>
-          <tr>
-              <td>Id</td>
-              <td>Message</td>
-              <td>LogLevel</td>
-              <td>user</td>
-              <td>TimestampString</td>
-          </tr>
-      </thead>
+    <div class="card">
+        <div class="card-header">
+            Filtros
+        </div>
+        <div class="card-body">
+            <form method="GET">
+                <div class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-lg-3 col-sm-6">
+                        <label for="startDate">Start</label>
+                        <input id="startDate" class="form-control" type="date" name="startDate" value='@stringStartDate'/>
+                        <span id="startDateSelected"></span>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <label for="endDate">End</label>
+                        <input id="endDate" class="form-control" name="endDate" type='date' value='@stringEndDate'/>
+                        <span id="endDateSelected"></span>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 align-items-right" style="align-self: self-end;">
+                        <button type="submit" class="btn btn-primary align-bottom">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-      @foreach (var item in Model.Items)
-      {
-          <tr>
-              <td>@item.Id</td>
-              <td>@item.Message</td>
-              <td>@item.LogLevel</td>
-              <td>@item.user</td>
-              <td>@item.TimestampString</td>
-          </tr>
-      }
-</table>
+    <div class="panel-heading pt-2"><h5>@ViewData["Title"]</h5></div>
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Message</td>
+                <td>LogLevel</td>
+                <td>user</td>
+                <td>TimestampString</td>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Message</td>
+                <td>@item.LogLevel</td>
+                <td>@item.user?.Id</td>
+                <td>@item.Timestamp.Humanize()</td>
+            </tr>
+        }
+    </table>
 </div>

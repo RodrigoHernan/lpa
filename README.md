@@ -45,14 +45,14 @@ make install
 ## Requerimientos
 [*] v0.1 Login
 [*] v0.2 Registrar
-[*] v0.3 Bitacoraque
+[*] v0.3 Bitacora
 [*] v0.4 [Verificar integridad del sistema](https://www.codeproject.com/Tips/588941/Check-Digit-Vertical-and-Horizontal)
 [*] v0.5 Restaurar o recalcular digitos verificadores
 [*] v0.6 Backup
 [*] v0.7 Usuario: bloquear luego de 3 intentos
 [*] v0.8 ABM
-[ ] v0.9 Usuario, familia, patente
-[ ] v0.10 Filtro de usuario en consulta de bitacora
+[*] v0.9 Filtro de usuario en consulta de bitacora
+[ ] v0.10 Usuario, familia, patente
 
 En la carpeta falta:
 [*] Politica de backup

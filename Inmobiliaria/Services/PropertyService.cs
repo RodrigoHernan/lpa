@@ -36,7 +36,7 @@ namespace Inmobiliaria.Services
 
         public async Task<bool> AddPropertyAsync(Property newProperty, ApplicationUser user)
         {
-            await _logger.Log(LogLevel.Debug, $"Adding property {newProperty.Title}");
+            await _logger.Log(LogLevel.Debug, $"Adding property {newProperty.Title}", user);
             newProperty.Id = Guid.NewGuid();
             newProperty.Created = DateTimeOffset.Now;
             newProperty.UserId = user.Id;
