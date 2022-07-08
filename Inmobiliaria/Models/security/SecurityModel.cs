@@ -8,10 +8,10 @@ namespace Inmobiliaria.Models
         public string Tipo { get; set; }
     }
 
-    class FamiliaModel : PermisoModel {
-        public List<PermisoModel> Permisos { get; set; }
+    public class FamiliaModel : PermisoModel {
+        // public List<PermisoModel> Permisos { get; set; }
     }
 
-    class PatenteModel : PermisoModel {
+    public class PatenteModel : PermisoModel {
     }
 }

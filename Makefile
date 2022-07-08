@@ -9,7 +9,8 @@ build:
 	docker-compose exec web dotnet build
 
 migrate:
-	docker-compose run web dotnet ef database update
+	docker run -it --rm -v $(pwd)/Inmobiliaria:/app  --network="host"  \
+  		ddotnet dotnet ef database update
 
 create-migration: ## Create database migration using dotnet ef. Usage: make create-migration name="your-change-description"
 	docker-compose run web dotnet ef migrations add $(name)

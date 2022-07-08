@@ -1,14 +1,40 @@
-﻿@{
-    ViewData["Title"] = "Inicio";
-    Layout = "_AdminLayout";
+﻿@model ClaimsViewModel
+
+@{
+    ViewData["Title"] = "Permisos";
 }
-
-<div>
-    <div class="text-center">
-      <img src="~/assets/logo2.png" class="img-fluid" alt="Responsive image">
-    </div>
-    <div class="container mb-5">
-      abms
-    </div>
-
-</div>
+<h1>Permisos</h1>
+<h1>Familias</h1>
+<p>
+    <a asp-action="CreateFamily">Crear nueva familia</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Families[0].Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Families[0].Tipo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Families) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                <a asp-action="EditFamily" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="FamilyDetails" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="DeleteFamily" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

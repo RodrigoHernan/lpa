@@ -1,0 +1,30 @@
+@model Inmobiliaria.Models.FamiliaModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FamiliaModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditFamily" asp-route-id="@Model?.Id">Editar</a> |
+    <a asp-action="Claims">Back to List</a>
+</div>

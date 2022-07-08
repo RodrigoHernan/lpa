@@ -13,10 +13,8 @@ docker run -it --rm \
 
 sudo chown -R rramos:rramos *
 
-docker run -it --rm \
-  -v $(pwd):/app \
+docker run -it --rm -v $(pwd):/app --network="host" \
   ddotnet dotnet ef migrations add InitialCreate
 
-docker run -it --rm \
-  -v $(pwd):/app \
+docker run -it --rm -v $(pwd):/app  --network="host"  \
   ddotnet dotnet ef database update
