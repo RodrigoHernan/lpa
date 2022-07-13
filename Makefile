@@ -26,7 +26,7 @@ scaffolding:
 	docker run -it --rm \
   	-v $(pwd):/app \
   	ddotnet dotnet-aspnet-codegenerator controller \
-	-name FamiliaController -m Familia \
+	-name FamiliaController2 -m FamiliaModel \
 	-dc ApplicationDbContext \
 	--relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
