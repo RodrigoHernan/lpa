@@ -21,9 +21,12 @@ public class ApplicationDbContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+        // builder.Entity<Patente>().HasMany(p => p.Familia_Patentes).WithOne(fp => fp.Patente);
+        // builder.Entity<FamiliaModel>().HasMany(f => f.Familia_Patentes).WithOne(fp => fp.Familia);
+        // builder.Entity<Familia_Patente>().HasKey(fp => new { fp.FamiliaId, fp.PatenteId });
+        builder.Entity<Familia_Patente>().HasOne(fp => fp.Familia).WithMany(f => f.Familia_Patentes).HasForeignKey(fp => fp.FamiliaId);
+        builder.Entity<Familia_Patente>().HasOne(fp => fp.Patente).WithMany(p => p.Familia_Patentes).HasForeignKey(fp => fp.PatenteId);
+
     }
 
 
@@ -35,6 +38,8 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
     public DbSet<BackupModel> Backups { get; set; }
     public DbSet<FamiliaModel> Familias { get; set; }
+    public DbSet<Inmobiliaria.Models.Patente>? Patentes { get; set; }
+    public DbSet<Familia_Patente>? FamiliasPatente { get; set; }
 
     public IQueryable<Object> GetDbSet(Type type) {
         return this.GetDbSet(type.FullName);

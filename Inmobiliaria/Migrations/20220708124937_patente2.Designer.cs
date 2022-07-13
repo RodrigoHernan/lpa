@@ -4,6 +4,7 @@ using Inmobiliaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inmobiliaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220708124937_patente2")]
+    partial class patente2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,29 +46,6 @@ namespace Inmobiliaria.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Backups");
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.Familia_Patente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FamiliaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatenteId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FamiliaId");
-
-                    b.HasIndex("PatenteId");
-
-                    b.ToTable("FamiliasPatente");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Models.FamiliaModel", b =>
@@ -417,25 +396,6 @@ namespace Inmobiliaria.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Inmobiliaria.Models.Familia_Patente", b =>
-                {
-                    b.HasOne("Inmobiliaria.Models.FamiliaModel", "Familia")
-                        .WithMany("Familia_Patentes")
-                        .HasForeignKey("FamiliaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Inmobiliaria.Models.Patente", "Patente")
-                        .WithMany("Familia_Patentes")
-                        .HasForeignKey("PatenteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Familia");
-
-                    b.Navigation("Patente");
-                });
-
             modelBuilder.Entity("Inmobiliaria.Models.LogEntry", b =>
                 {
                     b.HasOne("Inmobiliaria.Models.ApplicationUser", "user")
@@ -494,16 +454,6 @@ namespace Inmobiliaria.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.FamiliaModel", b =>
-                {
-                    b.Navigation("Familia_Patentes");
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.Patente", b =>
-                {
-                    b.Navigation("Familia_Patentes");
                 });
 #pragma warning restore 612, 618
         }

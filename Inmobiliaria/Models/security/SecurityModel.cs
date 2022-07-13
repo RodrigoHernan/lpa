@@ -10,8 +10,21 @@ namespace Inmobiliaria.Models
 
     public class FamiliaModel : PermisoModel {
         // public List<PermisoModel> Permisos { get; set; }
+        public List<Familia_Patente> Familia_Patentes { get; set; }
     }
 
-    public class PatenteModel : PermisoModel {
+    public class Patente : PermisoModel {
+        public List<Familia_Patente> Familia_Patentes { get; set; }
+
+    }
+
+
+    public class Familia_Patente {
+        public int Id { get; set; }
+        public int FamiliaId { get; set; }
+        public FamiliaModel Familia { get; set; }
+
+        public int PatenteId { get; set; }
+        public Patente Patente { get; set; }
     }
 }

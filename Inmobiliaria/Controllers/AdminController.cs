@@ -47,9 +47,9 @@ public class AdminController : Controller
 
 
     public async Task<IActionResult> Claims() {
-        List<FamiliaModel> families = await _claims.GetAllFamilies();
         var model = new ClaimsViewModel(){
-            Families = families
+            Families = await _claims.GetAllFamilies(),
+            Patentes = await _claims.GetAllPatentes()
         };
         return View(model);
     }
@@ -162,7 +162,7 @@ public class AdminController : Controller
         var familiaModel = await _claims.GetFamilyById(id);
         if (familiaModel != null)
         {
-            _claims.DeleteFamily(familiaModel);
+            await _claims.DeleteFamily(familiaModel);
         }
 
         return RedirectToAction(nameof(Claims));

@@ -4,37 +4,91 @@
     ViewData["Title"] = "Permisos";
 }
 <h1>Permisos</h1>
-<h1>Familias</h1>
-<p>
-    <a asp-action="CreateFamily">Crear nueva familia</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Families[0].Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Families[0].Tipo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Families) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                <a asp-action="EditFamily" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="FamilyDetails" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="DeleteFamily" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="Familia-tab" data-bs-toggle="tab" data-bs-target="#Familia" type="button" role="tab" aria-controls="Familia" aria-selected="true">Familias</button>
+    <button class="nav-link" id="Patente-tab" data-bs-toggle="tab" data-bs-target="#Patente" type="button" role="tab" aria-controls="Patente" aria-selected="false">Patentes</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="Familia" role="tabpanel" aria-labelledby="Familia-tab">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Families[0].Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Families[0].Tipo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Families) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    <a asp-action="EditFamily" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="FamilyDetails" asp-route-id="@item.Id">Detalle</a> |
+                    <a asp-action="DeleteFamily" asp-route-id="@item.Id">Borrar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p><a asp-action="CreateFamily">Crear Nueva</a></p>
+  </div>
+  <div class="tab-pane fade" id="Patente" role="tabpanel" aria-labelledby="Patente-tab">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Patentes[0].Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Patentes[0].Nombre)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Patentes) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tipo)
+                        </td>
+                        <td>
+                            <a asp-controller="Patente"  asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a asp-controller="Patente"  asp-action="Details" asp-route-id="@item.Id">Detalle</a> |
+                            <a asp-controller="Patente"  asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+    <p><a asp-controller="Patente"  asp-action="Create">Crear Nueva</a></p>
+  </div>
+</div>
+
+<script>
+    window.addEventListener('load', function(event) {
+        var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
+        if (hash) {
+            var firstTabEl = document.querySelector('#nav-tab button#'+ hash+'-tab');
+            var firstTab = new bootstrap.Tab(firstTabEl)
+
+            firstTab.show()
+
+        }
+    });
+</script>

@@ -9,11 +9,13 @@ build:
 	docker-compose exec web dotnet build
 
 migrate:
-	docker run -it --rm -v $(pwd)/Inmobiliaria:/app  --network="host"  \
-  		ddotnet dotnet ef database update
+	docker run -it --rm -v $(CURDIR)/Inmobiliaria:/app  --network="host" ddotnet \
+	  dotnet ef database update
 
 create-migration: ## Create database migration using dotnet ef. Usage: make create-migration name="your-change-description"
-	docker-compose run web dotnet ef migrations add $(name)
+# Si queres correr en la terminal cambia CURDIR por PWD
+	docker run -it --rm -v $(CURDIR)/Inmobiliaria:/app  --network="host" ddotnet \
+	  dotnet ef migrations add $(name)
 
 install-dev:
 	scripts/install-dev.sh
@@ -24,7 +26,7 @@ scaffolding:
 	docker run -it --rm \
   	-v $(pwd):/app \
   	ddotnet dotnet-aspnet-codegenerator controller \
-	-name AdminController -m FamiliaModel \
+	-name FamiliaController -m Familia \
 	-dc ApplicationDbContext \
 	--relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
