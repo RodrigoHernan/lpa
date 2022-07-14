@@ -27,10 +27,17 @@
                 <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
+
+        <h5>Patentes</h5>
+        @foreach (var item in Model.Familia_Patentes) {
+            <span>
+                @Html.DisplayFor(modelItem => item.Patente.Nombre) |
+            </span>
+        }
     </div>
 </div>
 
 <div>
-    <a asp-action="Claims">Back to List</a>
+    <a asp-action="Claims">Volver</a>
 </div>
 

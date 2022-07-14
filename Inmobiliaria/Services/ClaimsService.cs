@@ -52,7 +52,9 @@ namespace Inmobiliaria.Services
             {
                 return null;
             }
-            return await _context.Familias.FindAsync(id);
+            return await _context.Familias
+                .Include(familia => familia.Familia_Patentes)
+                .ThenInclude(fp => fp.Patente).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<bool> UpdateFamily(FamiliaModel family)
