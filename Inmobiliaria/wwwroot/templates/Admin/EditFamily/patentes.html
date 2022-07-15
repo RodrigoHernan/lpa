@@ -1,0 +1,25 @@
+{% for item in data.patentes %}
+  <li>{{ item.nombre }}</li>
+{% else %}
+  <li>No tiene patentes</li>
+{% endfor %}
+
+
+
+<form data-hx-post="/api/FamilyFamiliaPatente/@Model.Id"  hx-ext='json-enc'>
+  <input type="hidden" name="FamiliaId" value="@Model.Id" />
+  <div class="row">
+      <div class="col-md-4">
+          <select class="form-select" name="PatenteId" aria-label="Seleccione una familia para agregar">
+            {% for item in data.patentesDisponibles %}
+                <option value={{ item.id }}>{{ item.nombre }}</option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class="col-md-4">
+          <div class="form-group">
+              <input type="submit" value="Agregar" class="btn btn-primary align-bottom" />
+          </div>
+      </div>
+  </div>
+</form>

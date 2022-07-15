@@ -8,9 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Inmobiliaria</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Inmobiliaria.styles.css" asp-append-version="true" />
+
+    @* TODO pasar todo esto a webpack *@
+    <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+    <script src="~/lib/nunjucks.min.js"></script>
+     <script src="https://unpkg.com/htmx.org@1.8.0/dist/ext/client-side-templates.js"></script>@* # puede que este este al pedo *@
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+
+
+
 </head>
 <body>
     <header>

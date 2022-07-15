@@ -20,6 +20,10 @@ namespace Inmobiliaria.Services
         Task<bool> UpdatePatente(Patente patente);
         bool PatenteExists(int id);
         Task<bool> DeletePatente(Patente patente);
+
+        Task<List<Patente>> GetPatentesByFamilyiD(int id);
+        Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id);
+        Task<bool> AddPatenteToFamily(int id, int patenteId);
     }
     public class ClaimService : IClaimService
     {
@@ -113,6 +117,33 @@ namespace Inmobiliaria.Services
         public async Task<bool> DeletePatente(Patente patente)
         {
             _context.Patentes.Remove(patente);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<List<Patente>> GetPatentesByFamilyiD(int id)
+        {
+            return await _context.Patentes
+                .Where(patente => patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
+                .ToListAsync();
+        }
+
+        public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id)
+        {
+            return await _context.Patentes
+                .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
+                .ToListAsync();
+        }
+
+        public async Task<bool> AddPatenteToFamily(int id, int patenteId)
+        {
+            var familia = await _context.Familias.FindAsync(id);
+            var patente = await _context.Patentes.FindAsync(patenteId);
+            if (familia == null || patente == null)
+            {
+                return false;
+            }
+            familia.Familia_Patentes.Add(new Familia_Patente { Familia = familia, Patente = patente });
             await _context.SaveChangesAsync();
             return true;
         }

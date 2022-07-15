@@ -134,6 +134,7 @@ public class AdminController : Controller
             }
             return RedirectToAction(nameof(Claims));
         }
+        familiaModel = await _claims.GetFamilyById(id);
         return View("Permisos/EditFamily", familiaModel);
     }
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Services;
 using Inmobiliaria.Models;
+using System.Text.Json.Serialization;
 // using Inmobiliaria.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ILoggerService, LoggerService>();
 builder.Services.AddScoped<IBackupRestore, BackupRestore>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 

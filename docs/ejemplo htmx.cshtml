@@ -1,0 +1,106 @@
+@model Inmobiliaria.Models.FamiliaModel
+
+@{
+    ViewData["Title"] = "Editar Familia";
+}
+
+<script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+<script src="~/lib/nunjucks.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.8.0/dist/ext/client-side-templates.js"></script>
+
+<script>
+nunjucks.configure('/templates', { autoescape: true });
+var res = nunjucks.render('foo.html');
+console.log(res);
+
+
+htmx.defineExtension('client-side-templates', {
+    transformResponse : function(text, xhr, elt) {
+        var nunjucksTemplate = htmx.closest(elt, "[nunjucks-template]");
+        if (nunjucksTemplate) {
+            var data = JSON.parse(text);
+            var templateName = nunjucksTemplate.getAttribute('nunjucks-template');
+            var template = htmx.find('#' + templateName);
+            if (template) {
+                return nunjucks.renderString(template.innerHTML, {data});
+            } else {
+                return nunjucks.render(templateName, {data});
+            }
+          }
+
+        return text;
+    }
+});
+
+</script>
+
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditFamily">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <input asp-for="Tipo" class="form-control" />
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-4">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+</div>
+<hr />
+<h4>Patentes</h4>
+@foreach (var item in Model.Familia_Patentes) {
+    <span>
+        @Html.DisplayFor(modelItem => item.Patente.Nombre) |
+    </span>
+}
+
+<div hx-ext="client-side-templates">
+    <button hx-get="/api/FamiliaApi"
+    hx-trigger="load"
+          nunjucks-template="foo.html">
+     Handle with nunjucks
+  </button>
+</div>
+
+
+<button
+        hx-ext="client-side-templates"
+       class="py-2 px-4 rounded bg-blue-500 text-white flex-grow-0"
+       type="button"
+       hx-trigger="load, click"
+       hx-get="/api/FamiliaApi"
+       nunjucks-template="gistlist"
+       hx-target="#list"
+       hx-swap="innerHTML"
+    >
+     Reload
+</button>
+
+<ul id="list" class="list-reset flex flex-col">
+</ul>
+
+<div>
+    <a asp-action="Claims">Volver</a>
+</div>
+
+
+  <script id="gistlist" type="nunjucks">
+    {% for item in data %}
+        <li>otro: {{ item.nombre }}</li>
+        {% else %}
+        <li>This would display if the 'item' collection were empty</li>
+        {% endfor %}
+  </script>
