@@ -22,9 +22,9 @@ namespace Inmobiliaria.Models
     public class Familia_Patente {
         public int Id { get; set; }
         public int FamiliaId { get; set; }
-        public FamiliaModel Familia { get; set; }
+        public FamiliaModel? Familia { get; set; }
 
         public int PatenteId { get; set; }
-        public Patente Patente { get; set; }
+        public Patente? Patente { get; set; }
     }
 }

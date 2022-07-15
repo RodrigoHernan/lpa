@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Models;
+using Inmobiliaria.Services;
 
 namespace Inmobiliaria.Controllers
 {
@@ -15,10 +16,12 @@ namespace Inmobiliaria.Controllers
     public class FamiliaApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IClaimService _claims;
 
-        public FamiliaApiController(ApplicationDbContext context)
+        public FamiliaApiController(ApplicationDbContext context, IClaimService claims)
         {
             _context = context;
+            _claims = claims;
         }
 
         // GET: api/FamiliaApi
@@ -114,6 +117,26 @@ namespace Inmobiliaria.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // GET: api/FamiliaApi/5/patentes
+        [HttpGet("{id}/patentes")]
+        public async Task<ActionResult<FamilyFamiliaPatenteModel>> GetFamilia_Patente(int id)
+        {
+            var family = await _claims.GetFamilyById(id);
+            if (family == null)
+            {
+                return NotFound();
+            }
+
+            return await _claims.GetFamiliaPatenteViewModel(id);
+        }
+
+        [HttpPost("{id}/patentes")]
+        public async Task<ActionResult<FamilyFamiliaPatenteModel>> PostAddPatenteToFamily(int id, Familia_Patente familia_patente)
+        {
+            await _claims.AddPatenteToFamily(id, familia_patente.PatenteId);
+            return await _claims.GetFamiliaPatenteViewModel(id);
         }
 
         private bool FamiliaModelExists(int id)

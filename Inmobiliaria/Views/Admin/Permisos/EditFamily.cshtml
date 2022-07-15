@@ -32,55 +32,21 @@
     </div>
 </form>
 <hr />
-<h4>Patentes</h4>
-@foreach (var item in Model.Familia_Patentes) {
-    <span>
-        @Html.DisplayFor(modelItem => item.Patente.Nombre) |
-    </span>
-}
-<div
-    hx-ext="client-side-templates"
-    hx-trigger="load"
-    nunjucks-template="Admin/EditFamily/patentes.html"
-    hx-get="/api/FamiliaPatente/@Model.Id/patentes/"
->
-
+<div >
+    <h4>Patentes</h4>
+    <div
+        id="patentes"
+        hx-ext="client-side-templates"
+        hx-trigger="load, patentes-updated from:body"
+        nunjucks-template="Admin/EditFamily/patentes.html"
+        hx-get="/api/FamiliaApi/@Model.Id/patentes/"
+    >
+    </div>
 </div>
 
 
-@* <form hx-post="/api/FamiliaPatente"> para post normal *@
-<form data-hx-post="/api/FamilyFamiliaPatente/@Model.Id"  hx-ext='json-enc'>
-    <input type="hidden" name="FamiliaId" value="@Model.Id" />
-    <div class="row">
-        <div class="col-md-4">
-            <div id="familiesSelect">Cargando...</div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="submit" value="Agregar" class="btn btn-primary align-bottom" />
-            </div>
-        </div>
-    </div>
-</form>
 
 <div>
     <a asp-action="Claims">Volver</a>
 </div>
 
-<script id="families" type="nunjucks">
-    <select class="form-select" name="PatenteId" aria-label="Seleccione una familia para agregar">
-    {% for item in data %}
-        <option value={{ item.id }}>{{ item.nombre }}</option>
-    {% endfor %}
-    </select>
-</script>
-<script>
-    window.addEventListener('load', async function(event) {
-        var familiesSelect = document.getElementById('familiesSelect');
-        const response = await fetch('/api/FamiliaApi');
-        const data = await response.json();
-
-        var template = htmx.find('#families');
-        familiesSelect.innerHTML =  nunjucks.renderString(template.innerHTML, {data});
-    });
-</script>

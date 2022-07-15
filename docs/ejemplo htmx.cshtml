@@ -104,3 +104,38 @@ htmx.defineExtension('client-side-templates', {
         <li>This would display if the 'item' collection were empty</li>
         {% endfor %}
   </script>
+
+
+
+
+  <script id="families" type="nunjucks">
+    <select class="form-select" name="PatenteId" aria-label="Seleccione una familia para agregar">
+    {% for item in data %}
+        <option value={{ item.id }}>{{ item.nombre }}</option>
+    {% endfor %}
+    </select>
+</script>
+<script>
+    window.addEventListener('load', async function(event) {
+        var familiesSelect = document.getElementById('familiesSelect');
+        const response = await fetch('/api/FamiliaApi');
+        const data = await response.json();
+
+        var template = htmx.find('#families');
+        familiesSelect.innerHTML =  nunjucks.renderString(template.innerHTML, {data});
+    });
+</script>
+
+
+borra el item despues del post. hay que responder al menos con ok
+<button
+    hx-delete="/api/FamiliaPatente/{{item.id}}"
+    hx-trigger="click"
+    hx-target="#li-familia-patente-{{item.id}}"
+    hx-swap="delete"
+
+    type="button"
+    class="btn btn-sm btn-link"
+    >
+    <i class="fa-solid fa-trash-can red"></i>
+</button>

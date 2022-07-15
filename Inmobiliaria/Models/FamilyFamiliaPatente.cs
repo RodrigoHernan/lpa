@@ -1,9 +1,10 @@
 namespace Inmobiliaria.Models
 {
-    public class FamilyFamiliaPatenteViewModel
+    public class FamilyFamiliaPatenteModel
     {
-        public List<Patente> Patentes { get; set; }
-        public List<Patente>? PatentesDisponibles { get; set; }
+        public FamiliaModel Familia { get; set; }
+        public List<Familia_Patente> FamiliasPatentes { get; set; }
+        public List<Patente> PatentesDisponibles { get; set; }
     }
 }
 

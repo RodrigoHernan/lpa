@@ -1,13 +1,26 @@
-{% for item in data.patentes %}
-  <li>{{ item.nombre }}</li>
+{% for item in data.familiasPatentes %}
+  <li id="li-familia-patente-{{item.id}}">
+    {{ item.patente.nombre }}
+    <button
+      hx-delete="/api/FamiliaPatente/{{item.id}}"
+      hx-trigger="click"
+      hx-target="#patentes"
+
+      type="button"
+      class="btn btn-sm btn-link"
+      >
+        <i class="fa-solid fa-trash-can red"></i>
+    </button>
+  </li>
+
+
 {% else %}
   <li>No tiene patentes</li>
 {% endfor %}
 
 
-
-<form data-hx-post="/api/FamilyFamiliaPatente/@Model.Id"  hx-ext='json-enc'>
-  <input type="hidden" name="FamiliaId" value="@Model.Id" />
+<form data-hx-post="/api/FamiliaApi/{{data.familia.id}}/patentes"  hx-ext='json-enc' hx-target="#patentes">
+  <input type="hidden" name="FamiliaId" value="{{data.familia.id}}" />
   <div class="row">
       <div class="col-md-4">
           <select class="form-select" name="PatenteId" aria-label="Seleccione una familia para agregar">

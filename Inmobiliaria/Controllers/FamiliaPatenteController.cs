@@ -101,7 +101,7 @@ namespace Inmobiliaria.Controllers
 
         // DELETE: api/FamiliaPatente/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFamilia_Patente(int id)
+        public async Task<ActionResult<FamilyFamiliaPatenteModel>> DeleteFamilia_Patente(int id)
         {
             if (_context.FamiliasPatente == null)
             {
@@ -116,30 +116,8 @@ namespace Inmobiliaria.Controllers
             _context.FamiliasPatente.Remove(familia_Patente);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return await _claims.GetFamiliaPatenteViewModel(familia_Patente.FamiliaId);
         }
-
-        // GET: api/FamilyFamiliaPatente/5
-        [HttpGet("{id}/patentes")]
-        public async Task<ActionResult<FamilyFamiliaPatenteViewModel>> GetFamilia_PatenteB(int id)
-        {
-            var family = await _claims.GetFamilyById(id);
-            if (family == null)
-            {
-                return NotFound();
-            }
-
-            var patentes = await _claims.GetPatentesByFamilyiD(id);
-            var patentesDisponibles = await _claims.GetPatentesDisponiblesByFamilyiD(id);
-
-            var familiaPatente = new FamilyFamiliaPatenteViewModel(){
-                Patentes = patentes,
-                PatentesDisponibles = patentesDisponibles
-            };
-
-            return familiaPatente;
-        }
-
 
         private bool Familia_PatenteExists(int id)
         {

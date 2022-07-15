@@ -21,8 +21,9 @@ namespace Inmobiliaria.Services
         bool PatenteExists(int id);
         Task<bool> DeletePatente(Patente patente);
 
-        Task<List<Patente>> GetPatentesByFamilyiD(int id);
+        Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(int id);
         Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id);
+        Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(int id);
         Task<bool> AddPatenteToFamily(int id, int patenteId);
     }
     public class ClaimService : IClaimService
@@ -121,11 +122,9 @@ namespace Inmobiliaria.Services
             return true;
         }
 
-        public async Task<List<Patente>> GetPatentesByFamilyiD(int id)
+        public async Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(int id)
         {
-            return await _context.Patentes
-                .Where(patente => patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
-                .ToListAsync();
+            return await _context.FamiliasPatente.Where(fp => fp.FamiliaId == id).ToListAsync();
         }
 
         public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id)
@@ -143,12 +142,30 @@ namespace Inmobiliaria.Services
             {
                 return false;
             }
-            familia.Familia_Patentes.Add(new Familia_Patente { Familia = familia, Patente = patente });
+            _context.FamiliasPatente.Add(new Familia_Patente {
+                FamiliaId = id,
+                PatenteId = patenteId
+            });
             await _context.SaveChangesAsync();
             return true;
         }
 
         #endregion
+
+        public async Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(int id)
+        {
+            var family = await GetFamilyById(id);
+            var familiasPatentes = await GetFamiliasPatentesByFamilyiD(id);
+            var patentesDisponibles = await GetPatentesDisponiblesByFamilyiD(id);
+
+            var familiaPatente = new FamilyFamiliaPatenteModel(){
+                Familia = family,
+                FamiliasPatentes = familiasPatentes,
+                PatentesDisponibles = patentesDisponibles
+            };
+
+            return familiaPatente;
+        }
 
     }
 }
