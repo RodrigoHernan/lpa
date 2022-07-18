@@ -59,6 +59,6 @@ En la carpeta falta:
 [*] ciclo de vida login:
     - 1ro compuebra si exste usuario logieado
 [*] tipo de conexion y porque
-[ ] el codigo por capa y explicar las capas.
-[ ] arbol de navegacion
+[*] el codigo por capa y explicar las capas.
+[*] arbol de navegacion
 [*] tipo de encriptacion

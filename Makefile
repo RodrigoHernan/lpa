@@ -31,3 +31,10 @@ scaffolding:
 	--relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
 	cd ..
+
+bulk-code:
+	scripts/bulk_code.py "Inmobiliaria/Models" > .idea/bulk_code/models.txt
+	scripts/bulk_code.py "Inmobiliaria/Controllers" > .idea/bulk_code/Controllers.txt
+	scripts/bulk_code.py "Inmobiliaria/Services" > .idea/bulk_code/Services.txt
+	scripts/bulk_code.py "Inmobiliaria/Views" > .idea/bulk_code/Views.txt
+
