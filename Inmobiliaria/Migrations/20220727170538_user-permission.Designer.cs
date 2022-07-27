@@ -4,6 +4,7 @@ using Inmobiliaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inmobiliaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220727170538_user-permission")]
+    partial class userpermission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +71,27 @@ namespace Inmobiliaria.Migrations
                     b.ToTable("FamiliasPatente");
                 });
 
+            modelBuilder.Entity("Inmobiliaria.Models.FamiliaModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Familias");
+                });
+
             modelBuilder.Entity("Inmobiliaria.Models.LogEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -99,20 +122,13 @@ namespace Inmobiliaria.Migrations
                     b.ToTable("LogEntries");
                 });
 
-            modelBuilder.Entity("Inmobiliaria.Models.PermisoModel", b =>
+            modelBuilder.Entity("Inmobiliaria.Models.Patente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -124,11 +140,7 @@ namespace Inmobiliaria.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("PermisoModel");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("PermisoModel");
+                    b.ToTable("Patentes");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Models.Property", b =>
@@ -190,9 +202,8 @@ namespace Inmobiliaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -431,20 +442,6 @@ namespace Inmobiliaria.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Inmobiliaria.Models.FamiliaModel", b =>
-                {
-                    b.HasBaseType("Inmobiliaria.Models.PermisoModel");
-
-                    b.HasDiscriminator().HasValue("FamiliaModel");
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.Patente", b =>
-                {
-                    b.HasBaseType("Inmobiliaria.Models.PermisoModel");
-
-                    b.HasDiscriminator().HasValue("Patente");
-                });
-
             modelBuilder.Entity("Inmobiliaria.Models.Familia_Patente", b =>
                 {
                     b.HasOne("Inmobiliaria.Models.FamiliaModel", "Familia")
@@ -471,13 +468,6 @@ namespace Inmobiliaria.Migrations
                         .HasForeignKey("userId");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.PermisoModel", b =>
-                {
-                    b.HasOne("Inmobiliaria.Models.ApplicationUser", null)
-                        .WithMany("Permisos")
-                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -529,11 +519,6 @@ namespace Inmobiliaria.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Permisos");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Models.FamiliaModel", b =>

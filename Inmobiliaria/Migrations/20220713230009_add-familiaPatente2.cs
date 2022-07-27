@@ -39,21 +39,21 @@ namespace Inmobiliaria.Migrations
                 table: "FamiliasPatente",
                 column: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_FamiliasPatente_Familias_FamiliaId",
-                table: "FamiliasPatente",
-                column: "FamiliaId",
-                principalTable: "Familias",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_FamiliasPatente_Familias_FamiliaId",
+            //     table: "FamiliasPatente",
+            //     column: "FamiliaId",
+            //     principalTable: "Familias",
+            //     principalColumn: "Id",
+            //     onDelete: ReferentialAction.Cascade);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_FamiliasPatente_Patentes_PatenteId",
-                table: "FamiliasPatente",
-                column: "PatenteId",
-                principalTable: "Patentes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_FamiliasPatente_Patentes_PatenteId",
+            //     table: "FamiliasPatente",
+            //     column: "PatenteId",
+            //     principalTable: "Patentes",
+            //     principalColumn: "Id",
+            //     onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

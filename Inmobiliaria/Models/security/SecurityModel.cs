@@ -27,4 +27,6 @@ namespace Inmobiliaria.Models
         public int PatenteId { get; set; }
         public Patente? Patente { get; set; }
     }
+
+
 }

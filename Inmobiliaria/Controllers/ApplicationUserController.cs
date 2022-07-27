@@ -7,22 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Models;
+using Inmobiliaria.Services;
 
 namespace Inmobiliaria.Controllers
 {
     public class ApplicationUserController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IClaimService _claims;
 
-        public ApplicationUserController(ApplicationDbContext context)
-        {
+
+        public ApplicationUserController(ApplicationDbContext context, IClaimService claims) {
+            _claims = claims;
             _context = context;
         }
 
         // GET: ApplicationUser
         public async Task<IActionResult> Index()
         {
-              return _context.users != null ? 
+              return _context.users != null ?
                           View(await _context.users.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.users'  is null.");
         }
@@ -150,7 +153,7 @@ namespace Inmobiliaria.Controllers
             {
                 _context.users.Remove(applicationUser);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -159,5 +162,30 @@ namespace Inmobiliaria.Controllers
         {
           return (_context.users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public async Task<IActionResult> EditPermissions(string id)
+        {
+            if (id == null || _context.users == null)
+            {
+                return NotFound();
+            }
+
+            var applicationUser = await _context.users.FindAsync(id);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+            await _claims.FillPermissionsUser(applicationUser);
+
+
+            EditPermissionViewModel model = new EditPermissionViewModel(){
+                Id = applicationUser.Id,
+                Permisos = applicationUser.Permisos,
+                PermisosDisponibles = await _claims.GetEnabledPermissions(applicationUser),
+            };
+            return View(model);
+        }
+
+
     }
 }

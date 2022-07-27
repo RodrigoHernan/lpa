@@ -7,6 +7,9 @@ namespace Inmobiliaria.Services
     public interface IClaimService
     {
         Task<List<PermisoModel>> GetAll();
+        Task<List<PermisoModel>> GetAll(ApplicationUser user);
+        Task<List<PermisoModel>> GetEnabledPermissions(ApplicationUser user);
+        Task<bool> FillPermissionsUser( ApplicationUser user);
         Task<List<FamiliaModel>> GetAllFamilies();
         Task<bool> CreateFamily(FamiliaModel family);
         Task<FamiliaModel> GetFamilyById(int? id);
@@ -37,6 +40,25 @@ namespace Inmobiliaria.Services
         public Task<List<PermisoModel>> GetAll()
         {
             return null;
+        }
+
+        public async Task<List<PermisoModel>> GetAll( ApplicationUser user)
+        {
+            var permisos = Enumerable.Empty<PermisoModel>().ToList();
+            return permisos;
+        }
+
+        public async Task<List<PermisoModel>> GetEnabledPermissions( ApplicationUser user)
+        {
+            // var userPermisos = await _context.UserPermisos
+            //     .Where(x => x.UserId == user.Id).ToListAsync();
+            return Enumerable.Empty<PermisoModel>().ToList();
+        }
+
+        public async Task<bool> FillPermissionsUser( ApplicationUser user)
+        {
+            user.Permisos = await GetAll(user) ?? Enumerable.Empty<PermisoModel>().ToList();
+            return true;
         }
 
         public async Task<List<FamiliaModel>> GetAllFamilies()
