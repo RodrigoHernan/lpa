@@ -152,7 +152,7 @@ namespace Inmobiliaria.Services
         public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id)
         {
             return await _context.Patentes
-                .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
+                // .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
                 .ToListAsync();
         }
 

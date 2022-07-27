@@ -14,7 +14,7 @@ namespace Inmobiliaria.Models
     }
 
     public class Patente : PermisoModel {
-        public List<Familia_Patente> Familia_Patentes { get; set; }
+        // public List<Familia_Patente> Familia_Patentes { get; set; }
 
     }
 

@@ -25,7 +25,7 @@ public class ApplicationDbContext : IdentityDbContext
         // builder.Entity<FamiliaModel>().HasMany(f => f.Familia_Patentes).WithOne(fp => fp.Familia);
         // builder.Entity<Familia_Patente>().HasKey(fp => new { fp.FamiliaId, fp.PatenteId });
         builder.Entity<Familia_Patente>().HasOne(fp => fp.Familia).WithMany(f => f.Familia_Patentes).HasForeignKey(fp => fp.FamiliaId).OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<Familia_Patente>().HasOne(fp => fp.Patente).WithMany(p => p.Familia_Patentes).HasForeignKey(fp => fp.PatenteId).OnDelete(DeleteBehavior.Restrict);
+        // builder.Entity<Familia_Patente>().HasOne(fp => fp.Patente).WithMany(p => p.Familia_Patentes).HasForeignKey(fp => fp.PatenteId).OnDelete(DeleteBehavior.Restrict);
 
     }
 
