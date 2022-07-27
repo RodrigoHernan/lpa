@@ -68,6 +68,8 @@ app.Use(async (context, next) => {
     string path = context.Request.Path.ToString();
     if (
         !path.Equals("/ManageUsers/DatabaseCorruption") &&
+        !path.Equals("/ManageUsers/Backup") &&
+        !path.Equals("/ManageUsers/RestorePost") &&
         !path.Equals("/Identity/Account/AccessDenied") &&
         !path.Equals("/Identity/Account/Login") &&
         !path.Equals("/ManageUsers/DatabaseCorruptionPost") &&

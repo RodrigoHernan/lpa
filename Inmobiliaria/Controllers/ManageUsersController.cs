@@ -13,7 +13,7 @@ using Inmobiliaria.Data;
 
 namespace Inmobiliaria.Controllers
 {
-    // [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class ManageUsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -58,7 +58,7 @@ namespace Inmobiliaria.Controllers
                 return View("Message", new MessageViewModel() {Message="Digitos verificadores restaurados"});
             }
             if (databaseAction.Action == "restore") {
-                return View("Message", new MessageViewModel() {Message="Base de datos restaurada"});
+                return RedirectToAction("Backup", new { ShowBackup = false });
             }
             if (databaseAction.Action == "backup") {
                 await _backupRestore.CrearPuntoRestauracion("backup");
@@ -73,12 +73,13 @@ namespace Inmobiliaria.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult>  Backup() {
+        public async Task<IActionResult> Backup(bool ShowBackup=true) {
+
 
 
             var items = await _backupRestore.GetAll();
 
-            var model = new BackupViewModel(){ Items = items };
+            var model = new BackupViewModel(){ Items = items, ShowBackup=ShowBackup};
 
             return View(model);
         }

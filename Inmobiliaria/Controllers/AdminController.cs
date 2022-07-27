@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Models;
 using Inmobiliaria.Services;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Inmobiliaria.Controllers;
 
+[Authorize(Roles = "Administrator")]
 public class AdminController : Controller
 {
     private readonly ILoggerService _logger;

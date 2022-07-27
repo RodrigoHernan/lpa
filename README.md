@@ -58,6 +58,8 @@ En la carpeta falta:
 [*] Politica de backup
 [*] ciclo de vida login:
     - 1ro compuebra si exste usuario logieado
+    mostrar mejor
+    explicar digito verificador
 [*] tipo de conexion y porque
 [*] el codigo por capa y explicar las capas.
 [*] arbol de navegacion

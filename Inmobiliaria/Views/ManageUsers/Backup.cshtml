@@ -11,17 +11,17 @@
 </p>
 
 <div class="row">
+    @if (Model.ShowBackup == true) {
     Backup:
-    @await Html.PartialAsync(
+    @Html.Partial(
         "ExecuteDatabaseAction",
         new DatabaseAction(){Action="backup"},
         new ViewDataDictionary(ViewData) {
             { "Action", "Realizar backup"},
             {"btn", "btn-primary"}
             }
-        )
-
-
+        );
+    }
     Restore:
         @await Html.PartialAsync(
         "ExecuteRestoreAction",
