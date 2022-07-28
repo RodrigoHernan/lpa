@@ -11,13 +11,13 @@
     @Html.DisplayFor(modelItem => item.Nombre)
 }
 
-<form>
+<form asp-action="EditPermissionsPost" method="post">
   <input type="hidden" asp-for="Id" />
   <div class="row">
       <div class="col-md-4">
           <select class="form-select" name="PermisoId" aria-label="Seleccione un permiso para agregar">
             @foreach (var item in Model.PermisosDisponibles ) {
-                <option value={{ item.id }}>{{ item.nombre }}</option>
+                <option value="@item.Id">@item.Nombre</option>
             }
           </select>
       </div>

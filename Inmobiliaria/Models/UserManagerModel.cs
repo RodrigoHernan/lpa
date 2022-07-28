@@ -10,7 +10,7 @@ namespace Inmobiliaria.Models
         // public Role Role { get; set; }
         public int InvalidPasswordAttempt { get; set; }
 
-        public List<PermisoModel>? Permisos { get; set; }
+        public List<UserPermission> Permisos { get; set; } = new List<UserPermission>();
     }
 
     public static class Role

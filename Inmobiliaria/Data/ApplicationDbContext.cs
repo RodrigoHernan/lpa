@@ -37,11 +37,12 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<LogEntry> LogEntries { get; set; }
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
     public DbSet<BackupModel> Backups { get; set; }
-    public DbSet<FamiliaModel> Familias { get; set; }
-    public DbSet<Inmobiliaria.Models.Patente>? Patentes { get; set; }
     public DbSet<Familia_Patente>? FamiliasPatente { get; set; }
 
-    // public DbSet<UserPermiso>? UserPermisos { get; set; }
+    public DbSet<Permiso>? Permisos { get; set; }
+    public DbSet<FamiliaModel> Familias { get; set; } // sirve para consultas de familias se guarda en db Permisos
+    public DbSet<Patente>? Patentes { get; set; } // sirve para consultas de Patentes se guarda en db Permisos
+
 
     public IQueryable<Object> GetDbSet(Type type) {
         return this.GetDbSet(type.FullName);

@@ -4,6 +4,7 @@ using Inmobiliaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inmobiliaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220727214504_urename-permission5")]
+    partial class urenamepermission5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,8 +195,6 @@ namespace Inmobiliaria.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("PermisoId");
 
                     b.ToTable("UserPermission");
                 });
@@ -487,12 +487,6 @@ namespace Inmobiliaria.Migrations
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Inmobiliaria.Models.Permiso", null)
-                        .WithMany("Users")
-                        .HasForeignKey("PermisoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -549,8 +543,6 @@ namespace Inmobiliaria.Migrations
             modelBuilder.Entity("Inmobiliaria.Models.Permiso", b =>
                 {
                     b.Navigation("Hijos");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Models.ApplicationUser", b =>

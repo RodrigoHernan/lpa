@@ -4,6 +4,7 @@ using Inmobiliaria.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inmobiliaria.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220727213236_urename-permission4")]
+    partial class urenamepermission4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,16 +117,11 @@ namespace Inmobiliaria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PermisoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PermisoId");
 
                     b.ToTable("Permisos");
 
@@ -193,8 +190,6 @@ namespace Inmobiliaria.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("PermisoId");
 
                     b.ToTable("UserPermission");
                 });
@@ -473,24 +468,11 @@ namespace Inmobiliaria.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Inmobiliaria.Models.Permiso", b =>
-                {
-                    b.HasOne("Inmobiliaria.Models.Permiso", null)
-                        .WithMany("Hijos")
-                        .HasForeignKey("PermisoId");
-                });
-
             modelBuilder.Entity("Inmobiliaria.Models.UserPermission", b =>
                 {
                     b.HasOne("Inmobiliaria.Models.ApplicationUser", null)
                         .WithMany("Permisos")
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Inmobiliaria.Models.Permiso", null)
-                        .WithMany("Users")
-                        .HasForeignKey("PermisoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -544,13 +526,6 @@ namespace Inmobiliaria.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Inmobiliaria.Models.Permiso", b =>
-                {
-                    b.Navigation("Hijos");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Models.ApplicationUser", b =>

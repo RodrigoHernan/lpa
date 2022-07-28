@@ -6,9 +6,9 @@ namespace Inmobiliaria.Services
 {
     public interface IClaimService
     {
-        Task<List<PermisoModel>> GetAll();
-        Task<List<PermisoModel>> GetAll(ApplicationUser user);
-        Task<List<PermisoModel>> GetEnabledPermissions(ApplicationUser user);
+        Task<List<Permiso>> GetAll();
+        Task<List<Permiso>> GetAll(ApplicationUser user);
+        Task<List<Permiso>> GetEnabledPermissions(ApplicationUser user);
         Task<bool> FillPermissionsUser( ApplicationUser user);
         Task<List<FamiliaModel>> GetAllFamilies();
         Task<bool> CreateFamily(FamiliaModel family);
@@ -37,27 +37,28 @@ namespace Inmobiliaria.Services
             _context = context;
         }
 
-        public Task<List<PermisoModel>> GetAll()
+        public Task<List<Permiso>> GetAll()
         {
             return null;
         }
 
-        public async Task<List<PermisoModel>> GetAll( ApplicationUser user)
+        public async Task<List<Permiso>> GetAll( ApplicationUser user)
         {
-            var permisos = Enumerable.Empty<PermisoModel>().ToList();
-            return permisos;
+            return await _context.Permisos
+                .Where(permiso => permiso.Users.Any(fp => fp.ApplicationUserId == user.Id))
+                .ToListAsync();
         }
 
-        public async Task<List<PermisoModel>> GetEnabledPermissions( ApplicationUser user)
+        public async Task<List<Permiso>> GetEnabledPermissions( ApplicationUser user)
         {
-            // var userPermisos = await _context.UserPermisos
-            //     .Where(x => x.UserId == user.Id).ToListAsync();
-            return Enumerable.Empty<PermisoModel>().ToList();
+            return await _context.Permisos
+                .Where(permiso => !permiso.Users.Any(fp => fp.ApplicationUserId == user.Id))
+                .ToListAsync();
         }
 
         public async Task<bool> FillPermissionsUser( ApplicationUser user)
         {
-            user.Permisos = await GetAll(user) ?? Enumerable.Empty<PermisoModel>().ToList();
+            // user.Permisos = await GetAll(user) ?? Enumerable.Empty<Permiso>().ToList();
             return true;
         }
 
