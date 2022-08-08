@@ -42,6 +42,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Permiso>? Permisos { get; set; }
     public DbSet<FamiliaModel> Familias { get; set; } // sirve para consultas de familias se guarda en db Permisos
     public DbSet<Patente>? Patentes { get; set; } // sirve para consultas de Patentes se guarda en db Permisos
+    public DbSet<UserPermission>? UserPermissions { get; set; } // sirve para consultas de Patentes se guarda en db Permisos
 
 
     public IQueryable<Object> GetDbSet(Type type) {

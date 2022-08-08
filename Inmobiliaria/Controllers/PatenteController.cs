@@ -55,7 +55,7 @@ namespace Inmobiliaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Tipo")] Patente patente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoPermiso")] Patente patente)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Inmobiliaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Tipo")] Patente patente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoPermiso")] Patente patente)
         {
             if (id != patente.Id)
             {

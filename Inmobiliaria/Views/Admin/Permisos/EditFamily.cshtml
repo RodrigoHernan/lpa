@@ -19,9 +19,10 @@
         </div>
         <div class="col-md-4 col-4">
             <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
-                <span asp-validation-for="Tipo" class="text-danger"></span>
+                <label asp-for="TipoPermiso" class="control-label"></label>
+                @Html.DropDownList("TipoPermiso",
+                    Html.GetEnumSelectList<TipoPermiso>(),
+                    "Acción",new { @class = "form-select" })
             </div>
         </div>
         <div class="col-md-4 col-4">

@@ -58,7 +58,10 @@ namespace Inmobiliaria.Services
 
         public async Task<bool> FillPermissionsUser( ApplicationUser user)
         {
-            // user.Permisos = await GetAll(user) ?? Enumerable.Empty<Permiso>().ToList();
+            user.Permisos = await _context.UserPermissions
+                .Where(fp => fp.ApplicationUserId == user.Id)
+                .Include(fp => fp.Permiso)
+                .ToListAsync();
             return true;
         }
 

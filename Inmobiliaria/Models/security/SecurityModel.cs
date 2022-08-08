@@ -1,15 +1,22 @@
 
 namespace Inmobiliaria.Models
 {
+    public enum TipoPermiso
+    {
+        SuperUser,
+        PuedeAdministrarRolesyPermisos,
+    }
+
 
     public abstract class Permiso {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Tipo { get; set; }
 
-        public IList<UserPermission> Users { get; set; }
+        public TipoPermiso? TipoPermiso { get; set; }
 
-        public abstract IList<Permiso> Hijos { get; }
+        public IList<UserPermission>? Users { get; set; }
+
+        public abstract IList<Permiso>? Hijos { get; }
         public abstract void AgregarHijo(Permiso c);
         public abstract void VaciarHijos();
 
@@ -72,6 +79,7 @@ namespace Inmobiliaria.Models
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
         public int PermisoId { get; set; }
+        public Permiso? Permiso { get; set; }
     }
 
 

@@ -180,7 +180,7 @@ namespace Inmobiliaria.Controllers
 
             EditPermissionViewModel model = new EditPermissionViewModel(){
                 Id = applicationUser.Id,
-                Permisos = await _claims.GetAll(applicationUser),
+                Permisos = applicationUser.Permisos,
                 PermisosDisponibles = await _claims.GetEnabledPermissions(applicationUser),
             };
             return View(model);
@@ -210,7 +210,8 @@ namespace Inmobiliaria.Controllers
 
             applicationUser.Permisos.Add(userPermission);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(EditPermissions),  new { id = id });
+            HttpContext.Response.Headers.Add("HX-Trigger", "item-updated");
+            return NoContent();
         }
 
     }

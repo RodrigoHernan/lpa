@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Models;
+using Inmobiliaria.Policy;
 using Inmobiliaria.Services;
 using Microsoft.AspNetCore.Authorization;
 
 
 namespace Inmobiliaria.Controllers;
 
-[Authorize(Roles = "Administrator")]
+// [Authorize(Policy = "PatenteFamilia", Patente = "PuedeAdministrarRolesyPermisos")]
 public class AdminController : Controller
 {
     private readonly ILoggerService _logger;
@@ -83,7 +84,7 @@ public class AdminController : Controller
     // POST: Admin/CreateFamily
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateFamily([Bind("Id,Nombre,Tipo")] FamiliaModel familiaModel)
+    public async Task<IActionResult> CreateFamily([Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
     {
         if (ModelState.IsValid)
         {
@@ -111,7 +112,7 @@ public class AdminController : Controller
     // POST: Admin/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditFamily(int id, [Bind("Id,Nombre,Tipo")] FamiliaModel familiaModel)
+    public async Task<IActionResult> EditFamily(int id, [Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
     {
         if (id != familiaModel.Id)
         {

@@ -2,29 +2,66 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_EmptyLayout";
 }
 
-
-<h2>Editar Permisos de Usuario</h2>
-
-@foreach (var item in Model.Permisos ) {
-    @Html.DisplayFor(modelItem => item.Nombre)
+<style>
+.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
 }
 
-<form asp-action="EditPermissionsPost" method="post">
-  <input type="hidden" asp-for="Id" />
-  <div class="row">
-      <div class="col-md-4">
-          <select class="form-select" name="PermisoId" aria-label="Seleccione un permiso para agregar">
-            @foreach (var item in Model.PermisosDisponibles ) {
-                <option value="@item.Id">@item.Nombre</option>
-            }
-          </select>
-      </div>
-      <div class="col-md-4">
-          <div class="form-group">
-              <input type="submit" value="Agregar" class="btn btn-primary align-bottom" />
-          </div>
-      </div>
-  </div>
-</form>
+.chip img {
+  float: left;
+  margin: 0 10px 0 -25px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+</style>
+
+
+<h2>Permisos de Usuario</h2>
+<div class="pb-3">
+    @foreach (var item in Model.Permisos ) {
+        <div id="li-familia-patente-@item.Id" class='chip'>
+            @item.Permiso.Nombre
+            <button
+            hx-delete="/api/UserPermissionApi/@item.Id"
+            hx-trigger="click"
+            hx-target="#patentes"
+            hx-swap="innerHTML"
+
+            type="button"
+            class="btn btn-sm btn-link"
+            >
+                <i class="fa-solid fa-trash-can red"></i>
+            </button>
+        </div>
+    }
+    <div style="display: inline-block;">
+        <form id="form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <select
+                class="form-select chip"
+                name="PermisoId"
+                aria-label="Seleccione un permiso para agregar"
+                data-hx-post="/ApplicationUser/EditPermissionsPost"
+                hx-target="#patentes"
+                hx-include="#form"
+            >
+                <option>Agregar</option>
+                @foreach (var item in Model.PermisosDisponibles ) {
+                    <option value="@item.Id">@item.Nombre</option>
+                }
+            </select>
+        </form>
+    </div>
+
+</div>

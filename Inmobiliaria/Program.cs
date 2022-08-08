@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Inmobiliaria.Data;
 using Inmobiliaria.Services;
 using Inmobiliaria.Models;
+using Inmobiliaria.Authorization;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+
 // using Inmobiliaria.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +33,15 @@ builder.Services.AddScoped<IBackupRestore, BackupRestore>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+// Familia Patente
+builder.Services.AddSingleton<IAuthorizationHandler, PatenteHandler>();
+builder.Services.AddAuthorization(options =>
+{
+  options.AddPolicy("PatenteFamilia", policy =>
+      policy.Requirements.Add(new PatenteRequirement()));
+});
+
 
 var app = builder.Build();
 
