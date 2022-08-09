@@ -1,0 +1,53 @@
+@model app.Models.FamiliaModel
+
+@{
+    ViewData["Title"] = "Editar Familia";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<form asp-action="EditFamily">
+    <div class="row">
+        <div class="col-md-4 col-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4 col-4">
+            <div class="form-group">
+                <label asp-for="TipoPermiso" class="control-label"></label>
+                @Html.DropDownList("TipoPermiso",
+                    Html.GetEnumSelectList<TipoPermiso>(),
+                    "Acción",new { @class = "form-select" })
+            </div>
+        </div>
+        <div class="col-md-4 col-4">
+            <div class="form-group mt-4">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
+<div >
+    <h4>Patentes</h4>
+    <div
+        id="patentes"
+        hx-ext="client-side-templates"
+        hx-trigger="load, patentes-updated from:body"
+        nunjucks-template="Admin/EditFamily/patentes.html"
+        hx-get="/api/FamiliaApi/@Model.Id/patentes/"
+    >
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Claims">Volver</a>
+</div>
+

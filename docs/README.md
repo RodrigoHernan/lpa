@@ -8,7 +8,7 @@ dotnet dev-certs https --trust
 
 Crear un nuevo proyecto con auth
 ~~~
-dotnet new mvc --auth Individual -o Inmobiliaria
+dotnet new mvc --auth Individual -o app
 ~~~
 
 

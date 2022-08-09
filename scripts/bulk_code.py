@@ -2,7 +2,7 @@
 import os, sys
 
 FOLDERS = [
-    # 'Inmobiliaria/Models',
+    # 'app/Models',
     sys.argv[1]
 ]
 
