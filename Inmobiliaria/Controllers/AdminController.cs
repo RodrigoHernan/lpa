@@ -32,6 +32,10 @@ public class AdminController : Controller
 
     public async Task<IActionResult> Logs(string? user, DateTime? startDate, DateTime? endDate) {
         List<LogEntry> items;
+        if (await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarLogs)) {
+            return RedirectToPage("/Identity/Account/AccessDenied");
+        }
+
         if (startDate != null || endDate != null) {
             items = await _logger.GetLogsByDateRange(
                 startDate ?? new DateTime(1000, 1, 1),
@@ -51,6 +55,8 @@ public class AdminController : Controller
 
 
     public async Task<IActionResult> Claims() {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         var model = new ClaimsViewModel(){
             Families = await _claims.GetAllFamilies(),
             Patentes = await _claims.GetAllPatentes()
@@ -61,6 +67,7 @@ public class AdminController : Controller
      // GET: Admin/Details/5
     public async Task<IActionResult> FamilyDetails(int id)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
         if (id == null)
         {
             return NotFound();
@@ -76,8 +83,9 @@ public class AdminController : Controller
     }
 
     // GET: Admin/CreateFamily
-    public IActionResult CreateFamily()
+    public async Task<IActionResult> CreateFamily()
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
         return View("Permisos/CreateFamily");
     }
 
@@ -86,6 +94,8 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateFamily([Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         if (ModelState.IsValid)
         {
             await _claims.CreateFamily(familiaModel);
@@ -97,6 +107,8 @@ public class AdminController : Controller
     // GET: Admin/Edit/5
     public async Task<IActionResult> EditFamily(int? id)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         if (id == null)
         {
             return NotFound();
@@ -114,6 +126,8 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditFamily(int id, [Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         if (id != familiaModel.Id)
         {
             return NotFound();
@@ -145,6 +159,8 @@ public class AdminController : Controller
     // GET: Admin/Delete/5
     public async Task<IActionResult> DeleteFamily(int id)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         if (id == null)
         {
             return NotFound();
@@ -164,6 +180,8 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteFamilyConfirmed(int id)
     {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
         var familiaModel = await _claims.GetFamilyById(id);
         if (familiaModel != null)
         {

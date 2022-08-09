@@ -1,6 +1,8 @@
 ﻿using Inmobiliaria.Data;
 using Inmobiliaria.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Inmobiliaria.Services
 {
@@ -28,13 +30,16 @@ namespace Inmobiliaria.Services
         Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id);
         Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(int id);
         Task<bool> AddPatenteToFamily(int id, int patenteId);
+        Task<bool> hasAccess(ClaimsPrincipal user, TipoPermiso permiso);
     }
     public class ClaimService : IClaimService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClaimService(ApplicationDbContext context) {
+        public ClaimService(ApplicationDbContext context, UserManager<ApplicationUser> userManager) {
             _context = context;
+            _userManager = userManager;
         }
 
         public Task<List<Permiso>> GetAll()
@@ -193,5 +198,15 @@ namespace Inmobiliaria.Services
             return familiaPatente;
         }
 
+        public async Task<bool> hasAccess(ClaimsPrincipal ClaimUser, TipoPermiso permiso)
+        {
+            var user = await _userManager.GetUserAsync(ClaimUser);
+            if (user == null)
+            {
+                return false;
+            }
+            var permisos = await GetAll(user);
+            return permisos.Any(p => p.TipoPermiso == permiso || p.TipoPermiso == TipoPermiso.SuperUser);
+        }
     }
 }

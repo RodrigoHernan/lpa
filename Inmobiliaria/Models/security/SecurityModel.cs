@@ -5,6 +5,7 @@ namespace Inmobiliaria.Models
     {
         SuperUser,
         PuedeAdministrarRolesyPermisos,
+        PuedeAdministrarLogs,
     }
 
 
