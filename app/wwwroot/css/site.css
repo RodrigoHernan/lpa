@@ -1,4 +1,8 @@
 :root {
+  /* importantes */
+  --gray-secundary:  #d5cec0;
+  --gray-primary:  #323231;
+
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
@@ -82,3 +86,5 @@ html {
 .red {
   color: var(--bs-danger);
 }
+
+

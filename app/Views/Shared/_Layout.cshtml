@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - app</title>
+    <title>@ViewData["Title"] - Clöe</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/fontawesome6/css/all.css" rel="stylesheet">
     <link href="~/lib/fontawesome6/css/v4-shims.css" rel="stylesheet">
@@ -25,33 +25,24 @@
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/logo.png" height='24px' alt="Responsive image"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Property" asp-action="Index">Inmuebles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <partial name="_LoginPartial" />
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+      <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="~/assets/logo-redondo.png" class="bi me-2" width="40" height="32" alt="Cloe">
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a class="nav-link px-2 link-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li><a class="nav-link px-2 link-dark" asp-area="" asp-controller="Menu" asp-action="Index">Menu</a></li>
+        <li> <a class="nav-link px-2 link-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a></li>
+        @* El activo deberia tener link-secondary *@
+      </ul>
+
+      <div class="col-md-3 text-end me-2">
+        <partial name="_LoginPartial" />
+      </div>
     </header>
+  </div>
     <div class="container" style="min-height: calc(100vh - 110px);">
         <main role="main" class="pb-3">
             @RenderBody()

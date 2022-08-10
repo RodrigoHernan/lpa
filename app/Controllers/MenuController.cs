@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace app.Controllers;
 
-public class PropertyController : Controller
+public class MenuController : Controller
 {
     private readonly IPropertyService _propertyService;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public PropertyController(IPropertyService propertyService, UserManager<ApplicationUser> userManager)
+    public MenuController(IPropertyService propertyService, UserManager<ApplicationUser> userManager)
     {
         _propertyService = propertyService;
         _userManager = userManager;
