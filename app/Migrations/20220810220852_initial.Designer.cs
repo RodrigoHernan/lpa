@@ -12,8 +12,8 @@ using app.Data;
 namespace App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220809022250_initial_migration")]
-    partial class initial_migration
+    [Migration("20220810220852_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,11 +56,11 @@ namespace App.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("FamiliaId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("FamiliaId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PatenteId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PatenteId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -103,11 +103,9 @@ namespace App.Migrations
 
             modelBuilder.Entity("app.Models.Permiso", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -117,8 +115,8 @@ namespace App.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PermisoId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PermisoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("TipoPermiso")
                         .HasColumnType("int");
@@ -188,8 +186,8 @@ namespace App.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PermisoId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PermisoId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

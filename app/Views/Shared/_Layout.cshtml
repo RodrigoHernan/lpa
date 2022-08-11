@@ -26,32 +26,38 @@
 </head>
 <body>
     <div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
       <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">
-        <img src="~/assets/logo-redondo.png" class="bi me-2" width="40" height="32" alt="Cloe">
+        <img src="~/assets/logo-redondo-chico.png" class="bi me-2" height="32" alt="Cloe">
       </a>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a class="nav-link px-2 link-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-        <li><a class="nav-link px-2 link-dark" asp-area="" asp-controller="Menu" asp-action="Index">Menu</a></li>
+        <li><a class="nav-link px-2 link-dark" asp-area="" asp-controller="Menu" asp-action="Index">Carta</a></li>
         <li> <a class="nav-link px-2 link-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a></li>
         @* El activo deberia tener link-secondary *@
       </ul>
 
-      <div class="col-md-3 text-end me-2">
+      <div class="col-md-3 text-end">
         <partial name="_LoginPartial" />
       </div>
     </header>
   </div>
-    <div class="container" style="min-height: calc(100vh - 110px);">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class='page-container container'>
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2022 - app - <a asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a>
+            <div class="d-flex justify-content-center ">
+
+                <a href="https://www.facebook.com/cloe.restaurant/" class="text-muted">
+                    <i class="fa-brands fa-facebook fa-2x mx-2"></i>
+                </a>
+                <a href="https://www.instagram.com/cloe.restaurant/" class="text-muted ml-1">
+                    <i class="fa-brands fa-instagram fa-2x mx-2"></i>
+                </a>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

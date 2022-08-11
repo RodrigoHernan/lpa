@@ -28,7 +28,7 @@ namespace app.Controllers
         }
 
         // GET: Patente/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -66,7 +66,7 @@ namespace app.Controllers
         }
 
         // GET: Patente/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoPermiso")] Patente patente)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nombre,TipoPermiso")] Patente patente)
         {
             if (id != patente.Id)
             {
@@ -116,7 +116,7 @@ namespace app.Controllers
         }
 
         // GET: Patente/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id == null)
             {
@@ -135,7 +135,7 @@ namespace app.Controllers
         // POST: Patente/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var patente = await _claims.GetPatenteById(id);
             if (patente != null)

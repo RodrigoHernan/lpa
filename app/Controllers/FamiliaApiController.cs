@@ -56,7 +56,7 @@ namespace app.Controllers
         // PUT: api/FamiliaApi/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFamiliaModel(int id, FamiliaModel familiaModel)
+        public async Task<IActionResult> PutFamiliaModel(Guid id, FamiliaModel familiaModel)
         {
             if (id != familiaModel.Id)
             {
@@ -121,7 +121,7 @@ namespace app.Controllers
 
         // GET: api/FamiliaApi/5/patentes
         [HttpGet("{id}/patentes")]
-        public async Task<ActionResult<FamilyFamiliaPatenteModel>> GetFamilia_Patente(int id)
+        public async Task<ActionResult<FamilyFamiliaPatenteModel>> GetFamilia_Patente(Guid id)
         {
             var family = await _claims.GetFamilyById(id);
             if (family == null)
@@ -133,13 +133,13 @@ namespace app.Controllers
         }
 
         [HttpPost("{id}/patentes")]
-        public async Task<ActionResult<FamilyFamiliaPatenteModel>> PostAddPatenteToFamily(int id, Familia_Patente familia_patente)
+        public async Task<ActionResult<FamilyFamiliaPatenteModel>> PostAddPatenteToFamily(Guid id, Familia_Patente familia_patente)
         {
             await _claims.AddPatenteToFamily(id, familia_patente.PatenteId);
             return await _claims.GetFamiliaPatenteViewModel(id);
         }
 
-        private bool FamiliaModelExists(int id)
+        private bool FamiliaModelExists(Guid id)
         {
             return (_context.Familias?.Any(e => e.Id == id)).GetValueOrDefault();
         }

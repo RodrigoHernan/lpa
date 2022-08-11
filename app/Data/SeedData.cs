@@ -1,53 +1,70 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using app.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using app.Models;
 
 
 namespace app.Data
 {
     public static class SeedData
     {
+
+
         public static async Task InitializeAsync(WebApplication app)
         {
+            Guid SuperUserPermisoId = Guid.Parse("{CF9EE097-EE5B-4704-4D84-08DA7B0ABCA2}");
+            String SuperUserUserId = "0E6A694A-6474-406A-2998-08DA7B0B8A23";
 
             using var scope = app.Services.CreateScope();
             var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var roleManager = scope.ServiceProvider
-                .GetRequiredService<RoleManager<IdentityRole>>();
-            await EnsureRolesAsync(roleManager);
+            await EnsureSuperUserPatenteAsync(dataContext, SuperUserPermisoId);
+            await EnsureSuperUserUserAsync(scope, SuperUserPermisoId, SuperUserUserId);
+        }
+        private static async Task EnsureSuperUserPatenteAsync(ApplicationDbContext dataContext, Guid SuperUserPermisoId)
+        {
 
+            var superUserPatente = await dataContext.Permisos.FirstOrDefaultAsync(p => p.Id == SuperUserPermisoId);
+            if (superUserPatente == null)
+            {
+                superUserPatente = new Patente {
+                    Nombre = "SuperUser" ,
+                    TipoPermiso = TipoPermiso.SuperUser
+                };
+                superUserPatente.Id = SuperUserPermisoId;
+                await dataContext.Permisos.AddAsync(superUserPatente);
+                await dataContext.SaveChangesAsync();
+            }
+        }
+
+        private static async Task EnsureSuperUserUserAsync(IServiceScope scope, Guid SuperUserPermisoId, String SuperUserUserId)
+
+        {
             var userManager = scope.ServiceProvider
                 .GetRequiredService<UserManager<ApplicationUser>>();
-            await EnsureTestAdminAsync(userManager);
-        }
 
-        private static async Task EnsureRolesAsync(
-            RoleManager<IdentityRole> roleManager)
-        {
-            var alreadyExists = await roleManager
-                .RoleExistsAsync(Role.Admin);
+            var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var superUser = await userManager.Users.FirstOrDefaultAsync(p => p.Id == SuperUserUserId);
+            if (superUser == null)
+            {
+                superUser = new ApplicationUser {
+                    Id = SuperUserUserId,
+                    UserName = "admin@gmail.com", Email = "ADMIN@gmail.com", NormalizedEmail="ADMIN@GMAIL.COM",
+                    NormalizedUserName="ADMIN@GMAIL.COM", EmailConfirmed = true,
+                };
+                var result = await userManager.CreateAsync(superUser, "P@ssw0rd");
 
-            if (alreadyExists) return;
-
-            await roleManager.CreateAsync(
-                new IdentityRole(Role.Admin));
-        }
-
-        private static async Task EnsureTestAdminAsync(
-            UserManager<ApplicationUser> userManager)
-        {
-            var testAdmin = await userManager.Users
-                .Where(x => x.UserName == "admin@gmail.com")
-                .SingleOrDefaultAsync();
-
-            if (testAdmin == null) return;
-            await userManager.AddToRoleAsync(
-                testAdmin, Role.Admin);
+                UserPermission userPermission = new UserPermission {
+                    ApplicationUserId = SuperUserUserId,
+                    PermisoId = SuperUserPermisoId
+                };
+                await dataContext.UserPermissions.AddAsync(userPermission);
+                await dataContext.SaveChangesAsync();
+            }
         }
 
     }

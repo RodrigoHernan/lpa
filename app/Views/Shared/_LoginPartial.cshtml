@@ -1,15 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using app.Services
+@using app.Models
+@using System.Security.Claims
 @inject SignInManager<ApplicationUser> SignInManager
+@inject ClaimService ClaimService
 @inject UserManager<ApplicationUser> UserManager
 
 @* <ul class="navbar-nav"> *@
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <span  class="nav-link text-dark">@User.Identity?.Name</span>
-    </li>
-}
-
 <div class="dropdown text-end">
     <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="~/assets/login-icon.png" alt="login" width="32" height="32" class="rounded-circle">
@@ -23,18 +20,18 @@
 
         @if (SignInManager.IsSignedIn(User))
         {
-
             var currentUser = await UserManager.GetUserAsync(User);
+            <li><div class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="logs">@User.Identity?.Name</div></li>
+            <li><hr class="dropdown-divider"></li>
 
-            var isAdmin = currentUser != null && await UserManager.IsInRoleAsync(currentUser, "Administrator");
-
+            var isAdmin = currentUser != null && await ClaimService.hasAccess(User, TipoPermiso.SuperUser);
             if (isAdmin) {
                 <li><a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="logs">Bitacora</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Claims">Permisos</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="ApplicationUser" asp-action="Index">Administrar usuarios</a></li>
             } else
             {
-                <li><a class="dropdown-item" asp-area="" asp-controller="Property" asp-action="User">Mis Inmuebles</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="Menu" asp-action="User">Administrar Carta</a></li>
             }
             <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Configuraciones</a></li>
             <li><hr class="dropdown-divider"></li>

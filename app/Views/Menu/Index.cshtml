@@ -5,37 +5,35 @@
 @{
     ViewData["Title"] = "Todas las propiedades";
 }
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Inmuebles</li>
-    </ol>
-</nav>
-<div>
-    <div class="text-center">
-      <img src="~/assets/logo2.png" class="img-fluid" alt="Responsive image">
-    </div>
-    <div class="container mb-5">
-    <h1>Todos los Inmuebles</h1>
-    <div class="row mb-2">
-      @foreach (var item in Model.Items)
-      {
-       <div class="col-md-6">
-          <div class="card flex-md-row mb-4 box-shadow h-md-250">
-            <div class="card-body d-flex flex-column align-items-start">
-              <strong class="d-inline-block mb-2 text-primary">@item.City</strong>
-              <h3 class="mb-0">
-                <a class="text-dark" href="#">@item.Title</a>
-              </h3>
-              <div class="mb-1 text-muted">@item.Created</div>
-              <p class="card-text mb-auto">@item.Description</p>
-              <a href="/Property/Details/@item.Id">Ver detalles</a>
-            </div>
-            <img class="card-img-right flex-auto d-none d-md-block" src="http://placeimg.com/250/200/arch/@item.Id" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" data-holder-rendered="true">
-          
-          
+<div class="container page-container">
+  <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Carta</li>
+      </ol>
+  </nav>
+
+  <div class="mb-5">
+  <h1>Nuestros Platos</h1>
+  <div class="row mb-2">
+    @foreach (var item in Model.Items)
+    {
+      <div class="col-md-6">
+        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+          <div class="card-body d-flex flex-column align-items-start">
+            <strong class="d-inline-block mb-2 text-primary">@item.City</strong>
+            <h3 class="mb-0">
+              <a class="text-dark" href="#">@item.Title</a>
+            </h3>
+            <div class="mb-1 text-muted">@item.Created</div>
+            <p class="card-text mb-auto">@item.Description</p>
+            <a href="/Menu/Details/@item.Id">Ver detalles</a>
           </div>
+          <img class="card-img-right flex-auto d-none d-md-block" src="https://via.placeholder.com/200x250.png?text=Imagen" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" data-holder-rendered="true">
+
+
         </div>
-      }
-    </div>
+      </div>
+    }
+  </div>
 </div>

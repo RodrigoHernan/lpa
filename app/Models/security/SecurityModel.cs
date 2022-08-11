@@ -10,7 +10,7 @@ namespace app.Models
 
 
     public abstract class Permiso {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Nombre { get; set; }
 
         public TipoPermiso? TipoPermiso { get; set; }
@@ -69,17 +69,17 @@ namespace app.Models
 
     public class Familia_Patente {
         public int Id { get; set; }
-        public int FamiliaId { get; set; }
+        public Guid FamiliaId { get; set; }
         public FamiliaModel? Familia { get; set; }
 
-        public int PatenteId { get; set; }
+        public Guid PatenteId { get; set; }
         public Patente? Patente { get; set; }
     }
 
     public class UserPermission {
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
-        public int PermisoId { get; set; }
+        public Guid PermisoId { get; set; }
         public Permiso? Permiso { get; set; }
     }
 

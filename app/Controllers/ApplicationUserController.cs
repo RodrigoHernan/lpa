@@ -189,16 +189,11 @@ namespace app.Controllers
         // POST: ApplicationUser/EditPermissionsPost/5
         [HttpPost, ActionName("EditPermissionsPost")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPermissionsPost(string id, int PermisoId)
+        public async Task<IActionResult> EditPermissionsPost(string id, Guid PermisoId)
         {
             if (_context.users == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.users'  is null.");
-            }
-
-            if (PermisoId == 0)
-            {
-                return RedirectToAction(nameof(EditPermissions), new { id = id });
             }
 
             var applicationUser = await _context.users.FindAsync(id);

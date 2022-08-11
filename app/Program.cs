@@ -30,6 +30,7 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<ILoggerService, LoggerService>();
 builder.Services.AddScoped<IBackupRestore, BackupRestore>();
 builder.Services.AddScoped<IClaimService, ClaimService>();
+builder.Services.AddTransient<ClaimService>();
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 

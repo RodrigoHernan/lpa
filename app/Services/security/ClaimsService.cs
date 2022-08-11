@@ -14,22 +14,22 @@ namespace app.Services
         Task<bool> FillPermissionsUser( ApplicationUser user);
         Task<List<FamiliaModel>> GetAllFamilies();
         Task<bool> CreateFamily(FamiliaModel family);
-        Task<FamiliaModel> GetFamilyById(int? id);
+        Task<FamiliaModel> GetFamilyById(Guid? id);
         Task<bool> UpdateFamily(FamiliaModel family);
-        bool FamiliaModelExists(int id);
+        bool FamiliaModelExists(Guid id);
         Task<bool> DeleteFamily(FamiliaModel family);
         Task<bool> CreatePatente(Patente patente);
 
         Task<List<Patente>> GetAllPatentes();
-        Task<Patente> GetPatenteById(int? id);
+        Task<Patente> GetPatenteById(Guid? id);
         Task<bool> UpdatePatente(Patente patente);
-        bool PatenteExists(int id);
+        bool PatenteExists(Guid id);
         Task<bool> DeletePatente(Patente patente);
 
-        Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(int id);
-        Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id);
-        Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(int id);
-        Task<bool> AddPatenteToFamily(int id, int patenteId);
+        Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(Guid id);
+        Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(Guid id);
+        Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(Guid id);
+        Task<bool> AddPatenteToFamily(Guid id, Guid patenteId);
         Task<bool> hasAccess(ClaimsPrincipal user, TipoPermiso permiso);
     }
     public class ClaimService : IClaimService
@@ -82,7 +82,7 @@ namespace app.Services
             return true;
         }
 
-        public async Task<FamiliaModel> GetFamilyById(int? id)
+        public async Task<FamiliaModel> GetFamilyById(Guid? id)
         {
             if (id == null)
             {
@@ -100,7 +100,7 @@ namespace app.Services
             return true;
         }
 
-        public bool FamiliaModelExists(int id)
+        public bool FamiliaModelExists(Guid id)
         {
           return (_context.Familias?.Any(e => e.Id == id)).GetValueOrDefault();
         }
@@ -125,7 +125,7 @@ namespace app.Services
             return await _context.Patentes.ToListAsync();
         }
 
-        public async Task<Patente> GetPatenteById(int? id)
+        public async Task<Patente> GetPatenteById(Guid? id)
         {
             if (id == null)
             {
@@ -141,7 +141,7 @@ namespace app.Services
             return true;
         }
 
-        public bool PatenteExists(int id)
+        public bool PatenteExists(Guid id)
         {
             return (_context.Patentes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
@@ -153,19 +153,19 @@ namespace app.Services
             return true;
         }
 
-        public async Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(int id)
+        public async Task<List<Familia_Patente>> GetFamiliasPatentesByFamilyiD(Guid id)
         {
             return await _context.FamiliasPatente.Where(fp => fp.FamiliaId == id).ToListAsync();
         }
 
-        public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(int id)
+        public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(Guid id)
         {
             return await _context.Patentes
                 // .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
                 .ToListAsync();
         }
 
-        public async Task<bool> AddPatenteToFamily(int id, int patenteId)
+        public async Task<bool> AddPatenteToFamily(Guid id, Guid patenteId)
         {
             var familia = await _context.Familias.FindAsync(id);
             var patente = await _context.Patentes.FindAsync(patenteId);
@@ -183,7 +183,7 @@ namespace app.Services
 
         #endregion
 
-        public async Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(int id)
+        public async Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(Guid id)
         {
             var family = await GetFamilyById(id);
             var familiasPatentes = await GetFamiliasPatentesByFamilyiD(id);

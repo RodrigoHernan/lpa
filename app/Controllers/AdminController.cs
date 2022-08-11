@@ -29,10 +29,8 @@ public class AdminController : Controller
     }
 
     public async Task<IActionResult> Logs(string? user, DateTime? startDate, DateTime? endDate) {
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
         List<LogEntry> items;
-        if (await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarLogs)) {
-            return RedirectToPage("/Identity/Account/AccessDenied");
-        }
 
         if (startDate != null || endDate != null) {
             items = await _logger.GetLogsByDateRange(
@@ -63,7 +61,7 @@ public class AdminController : Controller
     }
 
      // GET: Admin/Details/5
-    public async Task<IActionResult> FamilyDetails(int id)
+    public async Task<IActionResult> FamilyDetails(Guid id)
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
         if (id == null)
@@ -103,7 +101,7 @@ public class AdminController : Controller
     }
 
     // GET: Admin/Edit/5
-    public async Task<IActionResult> EditFamily(int? id)
+    public async Task<IActionResult> EditFamily(Guid? id)
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
@@ -122,7 +120,7 @@ public class AdminController : Controller
     // POST: Admin/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditFamily(int id, [Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
+    public async Task<IActionResult> EditFamily(Guid id, [Bind("Id,Nombre,TipoPermiso")] FamiliaModel familiaModel)
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
@@ -155,7 +153,7 @@ public class AdminController : Controller
     }
 
     // GET: Admin/Delete/5
-    public async Task<IActionResult> DeleteFamily(int id)
+    public async Task<IActionResult> DeleteFamily(Guid id)
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
@@ -176,7 +174,7 @@ public class AdminController : Controller
     // POST: Admin/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteFamilyConfirmed(int id)
+    public async Task<IActionResult> DeleteFamilyConfirmed(Guid id)
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
