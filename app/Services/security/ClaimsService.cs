@@ -31,6 +31,8 @@ namespace app.Services
         Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(Guid id);
         Task<bool> AddPatenteToFamily(Guid id, Guid patenteId);
         Task<bool> hasAccess(ClaimsPrincipal user, TipoPermiso permiso);
+
+
     }
     public class ClaimService : IClaimService
     {
@@ -161,7 +163,7 @@ namespace app.Services
         public async Task<List<Patente>> GetPatentesDisponiblesByFamilyiD(Guid id)
         {
             return await _context.Patentes
-                // .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
+                .Where(patente => !patente.Familia_Patentes.Any(fp => fp.FamiliaId == id))
                 .ToListAsync();
         }
 
@@ -182,7 +184,6 @@ namespace app.Services
         }
 
         #endregion
-
         public async Task<FamilyFamiliaPatenteModel> GetFamiliaPatenteViewModel(Guid id)
         {
             var family = await GetFamilyById(id);
@@ -206,7 +207,32 @@ namespace app.Services
                 return false;
             }
             var permisos = await GetAll(user);
-            return permisos.Any(p => p.TipoPermiso == permiso || p.TipoPermiso == TipoPermiso.SuperUser);
+            await FillHijos(permisos);
+            return permisos.Any( p =>
+                p.TipoPermiso == TipoPermiso.SuperUser ||
+                p.TipoPermiso == permiso ||
+                p.Hijos.Any(ph => ph.TipoPermiso == permiso)
+            );
         }
+        public async Task<bool> FillHijos(List<Permiso> permisos)
+        {
+            foreach (var permiso in permisos)
+            {
+                var familia = permiso as FamiliaModel;
+                if (familia != null){
+                    var children = await _context.FamiliasPatente
+                        .Where(fp => fp.FamiliaId == familia.Id)
+                        .Include(fp => fp.Patente)
+                        .Select(fp => fp.Patente)
+                        .ToListAsync();
+                    foreach (var child in children)
+                    {
+                        permiso.AgregarHijo(child);
+                    }
+                }
+            }
+            return true;
+        }
+
     }
 }

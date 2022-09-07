@@ -17,7 +17,7 @@ namespace app.Models
 
         public IList<UserPermission>? Users { get; set; }
 
-        public abstract IList<Permiso>? Hijos { get; }
+        public abstract IList<Permiso> Hijos { get; }
         public abstract void AgregarHijo(Permiso c);
         public abstract void VaciarHijos();
 
@@ -55,7 +55,7 @@ namespace app.Models
     }
 
     public class Patente : Permiso {
-        // public List<Familia_Patente> Familia_Patentes { get; set; }
+        public List<Familia_Patente>? Familia_Patentes { get; set; }
         public override IList<Permiso> Hijos {
             get {
                 return new List<Permiso>();

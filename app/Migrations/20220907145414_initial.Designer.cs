@@ -12,7 +12,7 @@ using app.Data;
 namespace App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220810220852_initial")]
+    [Migration("20220907145414_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,50 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Backups");
+                });
+
+            modelBuilder.Entity("app.Models.Dish", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte[]>("DVH")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HouseSize")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rooms")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Taxes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dishes");
                 });
 
             modelBuilder.Entity("app.Models.Familia_Patente", b =>
@@ -128,50 +172,6 @@ namespace App.Migrations
                     b.ToTable("Permisos");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Permiso");
-                });
-
-            modelBuilder.Entity("app.Models.Property", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("Created")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<byte[]>("DVH")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HouseSize")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rooms")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Taxes")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("app.Models.UserPermission", b =>
@@ -453,7 +453,7 @@ namespace App.Migrations
                         .IsRequired();
 
                     b.HasOne("app.Models.Patente", "Patente")
-                        .WithMany()
+                        .WithMany("Familia_Patentes")
                         .HasForeignKey("PatenteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -560,6 +560,11 @@ namespace App.Migrations
                 });
 
             modelBuilder.Entity("app.Models.FamiliaModel", b =>
+                {
+                    b.Navigation("Familia_Patentes");
+                });
+
+            modelBuilder.Entity("app.Models.Patente", b =>
                 {
                     b.Navigation("Familia_Patentes");
                 });

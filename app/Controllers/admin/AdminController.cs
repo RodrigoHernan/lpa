@@ -29,7 +29,7 @@ public class AdminController : Controller
     }
 
     public async Task<IActionResult> Logs(string? user, DateTime? startDate, DateTime? endDate) {
-        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+        if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarLogs)) return Redirect("/Identity/Account/AccessDenied");
         List<LogEntry> items;
 
         if (startDate != null || endDate != null) {

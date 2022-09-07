@@ -1,38 +1,43 @@
-{% for item in data.familiasPatentes %}
-  <li id="li-familia-patente-{{item.id}}">
-    {{ item.patente.nombre }}
-    <button
-      hx-delete="/api/FamiliaPatente/{{item.id}}"
-      hx-trigger="click"
-      hx-target="#patentes"
+<div class="pb-3">
+  {% for item in data.familiasPatentes %}
+    <div id="li-familia-patente-{{item.id}}" class='chip'>
+      {{ item.patente.nombre }}
+      <button
+        hx-delete="/api/FamiliaPatente/{{item.id}}"
+        hx-trigger="click"
+        hx-target="#patentes"
 
-      type="button"
-      class="btn btn-sm btn-link"
+        type="button"
+        class="btn btn-sm btn-link"
+        >
+          <i class="fa-solid fa-trash-can red"></i>
+      </button>
+    </div>
+
+
+  {% else %}
+    <li>No tiene patentes</li>
+  {% endfor %}
+
+  <div style="display: inline-block;">
+
+    <form id="form">
+      <input type="hidden" name="FamiliaId" value="{{data.familia.id}}" />
+      <select
+        class="form-select chip"
+        name="PatenteId"
+        aria-label="Seleccione una familia para agregar"
+        data-hx-post="/api/FamiliaApi/{{data.familia.id}}/patentes"
+        hx-target="#patentes"
+        hx-ext='json-enc'
+        hx-include="#form"
       >
-        <i class="fa-solid fa-trash-can red"></i>
-    </button>
-  </li>
-
-
-{% else %}
-  <li>No tiene patentes</li>
-{% endfor %}
-
-
-<form data-hx-post="/api/FamiliaApi/{{data.familia.id}}/patentes"  hx-ext='json-enc' hx-target="#patentes">
-  <input type="hidden" name="FamiliaId" value="{{data.familia.id}}" />
-  <div class="row">
-      <div class="col-md-4">
-          <select class="form-select" name="PatenteId" aria-label="Seleccione una familia para agregar">
-            {% for item in data.patentesDisponibles %}
-                <option value={{ item.id }}>{{ item.nombre }}</option>
-            {% endfor %}
-          </select>
-      </div>
-      <div class="col-md-4">
-          <div class="form-group">
-              <input type="submit" value="Agregar" class="btn btn-primary align-bottom" />
-          </div>
-      </div>
+        <option>Agregar</option>
+        {% for item in data.patentesDisponibles %}
+            <option value={{ item.id }}>{{ item.nombre }}</option>
+        {% endfor %}
+      </select>
+    </form>
   </div>
-</form>
+</div>
+

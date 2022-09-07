@@ -66,6 +66,27 @@ namespace App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dishes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Taxes = table.Column<int>(type: "int", nullable: false),
+                    HouseSize = table.Column<int>(type: "int", nullable: false),
+                    Rooms = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DVH = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dishes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permisos",
                 columns: table => new
                 {
@@ -83,27 +104,6 @@ namespace App.Migrations
                         column: x => x.PermisoId,
                         principalTable: "Permisos",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Properties",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Taxes = table.Column<int>(type: "int", nullable: false),
-                    HouseSize = table.Column<int>(type: "int", nullable: false),
-                    Rooms = table.Column<int>(type: "int", nullable: false),
-                    Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DVH = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Properties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -388,13 +388,13 @@ namespace App.Migrations
                 name: "Backups");
 
             migrationBuilder.DropTable(
+                name: "Dishes");
+
+            migrationBuilder.DropTable(
                 name: "FamiliasPatente");
 
             migrationBuilder.DropTable(
                 name: "LogEntries");
-
-            migrationBuilder.DropTable(
-                name: "Properties");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");

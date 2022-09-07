@@ -18,14 +18,6 @@
             </div>
         </div>
         <div class="col-md-4 col-4">
-            <div class="form-group">
-                <label asp-for="TipoPermiso" class="control-label"></label>
-                @Html.DropDownList("TipoPermiso",
-                    Html.GetEnumSelectList<TipoPermiso>(),
-                    "Acción",new { @class = "form-select" })
-            </div>
-        </div>
-        <div class="col-md-4 col-4">
             <div class="form-group mt-4">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>

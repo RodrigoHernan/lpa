@@ -87,7 +87,7 @@ namespace App.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Properties");
+                    b.ToTable("Dishes");
                 });
 
             modelBuilder.Entity("app.Models.Familia_Patente", b =>
@@ -451,7 +451,7 @@ namespace App.Migrations
                         .IsRequired();
 
                     b.HasOne("app.Models.Patente", "Patente")
-                        .WithMany()
+                        .WithMany("Familia_Patentes")
                         .HasForeignKey("PatenteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -558,6 +558,11 @@ namespace App.Migrations
                 });
 
             modelBuilder.Entity("app.Models.FamiliaModel", b =>
+                {
+                    b.Navigation("Familia_Patentes");
+                });
+
+            modelBuilder.Entity("app.Models.Patente", b =>
                 {
                     b.Navigation("Familia_Patentes");
                 });

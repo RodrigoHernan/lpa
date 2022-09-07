@@ -18,16 +18,16 @@
             <th>
                 Email
             </th>
-            <th>
+            <th class="d-none d-lg-block">
                 Email confirmado
             </th>
-            <th>
+            <th class="d-none d-lg-block">
                 Número de telefono
             </th>
-            <th>
+            <th class="d-none d-lg-block">
                 Número de telefono confirmado
             </th>
-            <th>
+            <th class="d-none d-lg-block">
                 Intento de acceso fallidos
             </th>
             <th></th>
@@ -42,22 +42,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
+            <td class="d-none d-lg-block">
                 @Html.DisplayFor(modelItem => item.EmailConfirmed)
             </td>
-            <td>
+            <td class="d-none d-lg-block">
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
-            <td>
+            <td class="d-none d-lg-block">
                 @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
             </td>
-            <td>
+            <td class="d-none d-lg-block">
                 @Html.DisplayFor(modelItem => item.AccessFailedCount)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
             </td>
         </tr>
 }

@@ -38,7 +38,7 @@ namespace app.Services
 
         public async Task<Dish[]> GetDishes(ApplicationUser user)
         {
-            var items = await _context.Properties
+            var items = await _context.Dishes
                 .Where(x => x.UserId == user.Id)
                 .ToArrayAsync();
             return items;
@@ -46,7 +46,7 @@ namespace app.Services
 
         public async Task<Dish[]> GetDishes()
         {
-            var items = await _context.Properties
+            var items = await _context.Dishes
                 .ToArrayAsync();
             return items;
         }
@@ -58,7 +58,7 @@ namespace app.Services
             newDish.Created = DateTimeOffset.Now;
             newDish.UserId = user.Id;
 
-            _context.Properties.Add(newDish);
+            _context.Dishes.Add(newDish);
 
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
@@ -66,26 +66,26 @@ namespace app.Services
 
         public async Task<Dish> GetDish(Guid id){
 
-            var item = await _context.Properties.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Dishes.FirstOrDefaultAsync(x => x.Id == id);
             return item;
         }
 
         public async Task<bool> RemoveDishAsync(Guid id)
         {
-            var item = await _context.Properties
+            var item = await _context.Dishes
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (item == null)
             {
                 return false;
             }
-            _context.Properties.Remove(item);
+            _context.Dishes.Remove(item);
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
         }
 
         public async Task<bool> UpdateDishAsync(Dish dish)
         {
-            var item = await _context.Properties
+            var item = await _context.Dishes
                 .FirstOrDefaultAsync(x => x.Id == dish.Id);
             if (item == null)
             {
