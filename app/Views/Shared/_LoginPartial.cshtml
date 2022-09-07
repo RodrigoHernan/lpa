@@ -21,8 +21,6 @@
         @if (SignInManager.IsSignedIn(User))
         {
             var currentUser = await UserManager.GetUserAsync(User);
-            <li><div class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="logs">@User.Identity?.Name</div></li>
-            <li><hr class="dropdown-divider"></li>
 
             var isAdmin = currentUser != null && await ClaimService.hasAccess(User, TipoPermiso.SuperUser);
             if (isAdmin) {
@@ -33,12 +31,12 @@
             {
                 <li><a class="dropdown-item" asp-area="" asp-controller="Menu" asp-action="User">Administrar Carta</a></li>
             }
-            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Configuraciones</a></li>
             <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name</a></li>
             <li>
                 <span class="dropdown-item" href="#">
                     <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        <button  type="submit" class="nav-link btn btn-link text-dark" style="padding-left: 0px;" >Logout</button>
                     </form>
                 </span>
             </li>

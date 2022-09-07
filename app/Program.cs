@@ -26,7 +26,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>{
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<IDishService, DishService>();
 builder.Services.AddScoped<ILoggerService, LoggerService>();
 builder.Services.AddScoped<IBackupRestore, BackupRestore>();
 builder.Services.AddScoped<IClaimService, ClaimService>();

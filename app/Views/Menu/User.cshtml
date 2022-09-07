@@ -1,4 +1,4 @@
-@model PropertyViewModel
+@model DishViewModel
 @using Humanizer
 
 
@@ -43,7 +43,7 @@
 </table>
 
     <div class="panel-footer add-item-form">
-      @await Html.PartialAsync("AddMenuPartial", new Property())
+      @await Html.PartialAsync("AddMenuPartial", new Dish())
     </div>
 
 </div>

@@ -9,34 +9,34 @@ using Microsoft.AspNetCore.Identity;
 
 namespace app.Services
 {
-    public interface IPropertyService
+    public interface IDishService
     {
-        Task<Property[]> GetUserProperties(ApplicationUser user);
-        Task<Property[]> GetProperties();
+        Task<Dish[]> GetDishes(ApplicationUser user);
+        Task<Dish[]> GetDishes();
 
         //getbyID
-        Task<Property> GetProperty(Guid id);
+        Task<Dish> GetDish(Guid id);
 
-        Task<bool> AddPropertyAsync(Property newProperty, ApplicationUser user);
+        Task<bool> AddDishAsync(Dish newDish, ApplicationUser user);
 
-        Task<bool> RemovePropertyAsync(Guid id);
+        Task<bool> RemoveDishAsync(Guid id);
 
-        Task<bool> UpdatePropertyAsync(Property property);
+        Task<bool> UpdateDishAsync(Dish dish);
 
 
     }
 
-    public class PropertyService : IPropertyService
+    public class DishService : IDishService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILoggerService _logger;
 
-        public PropertyService(ApplicationDbContext context, ILoggerService logger) {
+        public DishService(ApplicationDbContext context, ILoggerService logger) {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<Property[]> GetUserProperties(ApplicationUser user)
+        public async Task<Dish[]> GetDishes(ApplicationUser user)
         {
             var items = await _context.Properties
                 .Where(x => x.UserId == user.Id)
@@ -44,33 +44,33 @@ namespace app.Services
             return items;
         }
 
-        public async Task<Property[]> GetProperties()
+        public async Task<Dish[]> GetDishes()
         {
             var items = await _context.Properties
                 .ToArrayAsync();
             return items;
         }
 
-        public async Task<bool> AddPropertyAsync(Property newProperty, ApplicationUser user)
+        public async Task<bool> AddDishAsync(Dish newDish, ApplicationUser user)
         {
-            await _logger.Log(LogLevel.Debug, $"Adding property {newProperty.Title}", user);
-            newProperty.Id = Guid.NewGuid();
-            newProperty.Created = DateTimeOffset.Now;
-            newProperty.UserId = user.Id;
+            await _logger.Log(LogLevel.Debug, $"Adding dish {newDish.Title}", user);
+            newDish.Id = Guid.NewGuid();
+            newDish.Created = DateTimeOffset.Now;
+            newDish.UserId = user.Id;
 
-            _context.Properties.Add(newProperty);
+            _context.Properties.Add(newDish);
 
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
         }
 
-        public async Task<Property> GetProperty(Guid id){
+        public async Task<Dish> GetDish(Guid id){
 
             var item = await _context.Properties.FirstOrDefaultAsync(x => x.Id == id);
             return item;
         }
 
-        public async Task<bool> RemovePropertyAsync(Guid id)
+        public async Task<bool> RemoveDishAsync(Guid id)
         {
             var item = await _context.Properties
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -83,18 +83,18 @@ namespace app.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> UpdatePropertyAsync(Property property)
+        public async Task<bool> UpdateDishAsync(Dish dish)
         {
             var item = await _context.Properties
-                .FirstOrDefaultAsync(x => x.Id == property.Id);
+                .FirstOrDefaultAsync(x => x.Id == dish.Id);
             if (item == null)
             {
                 return false;
             }
-            item.Title = property.Title;
-            item.Description = property.Description;
-            item.Price = property.Price;
-            item.Rooms = property.Rooms;
+            item.Title = dish.Title;
+            item.Description = dish.Description;
+            item.Price = dish.Price;
+            item.Rooms = dish.Rooms;
 
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;

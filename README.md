@@ -43,24 +43,27 @@ make install
 ~~~
 
 ## Requerimientos
-[*] v0.1 Login
-[*] v0.2 Registrar
-[*] v0.3 Bitacora
-[*] v0.4 [Verificar integridad del sistema](https://www.codeproject.com/Tips/588941/Check-Digit-Vertical-and-Horizontal)
-[*] v0.5 Restaurar o recalcular digitos verificadores
-[*] v0.6 Backup
-[*] v0.7 Usuario: bloquear luego de 3 intentos
-[*] v0.8 ABM
-[*] v0.9 Filtro de usuario en consulta de bitacora
-[ ] v0.10 Usuario, familia, patente
+ [*] Login
+ [*] Bitacora
+ [*] [Verificar integridad del sistema](https://www.codeproject.com/Tips/588941/Check-Digit-Vertical-and-Horizontal)
+ [*] Restaurar o recalcular digitos verificadores
+ [*] Backup
+ [*] Usuario: bloquear luego de 3 intentos
+ [*] ABM simple
+ [*] Filtro en consulta de bitacora
+ [*] Usuario, familia, patente
+ [ ] Web service simple
+ [*] API AJAX
+ [ ] Descargar / generar un archivo XML con los datos de una tabla
 
-En la carpeta falta:
-[*] Politica de backup
-[*] ciclo de vida login:
-    - 1ro compuebra si exste usuario logieado
-    mostrar mejor
-    explicar digito verificador
-[*] tipo de conexion y porque
-[*] el codigo por capa y explicar las capas.
-[*] arbol de navegacion
-[*] tipo de encriptacion
+
+### En la carpeta:
+ [*] Politica de backup
+ [*] Ciclo de vida login
+ [*] Tipo de conexion y porque
+ [*] El codigo por capa y explicar las capas.
+ [*] Árbol de navegacion
+ [*] Tipo de encriptacion
+ [ ] Multi idioma con patron observer
+
+

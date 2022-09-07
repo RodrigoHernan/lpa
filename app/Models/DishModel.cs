@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace app.Models
 {
-    public class Property:IEntidadConDigitoVerificador
+    public class Dish:IEntidadConDigitoVerificador
     {
         public string? UserId { get; set; }
 

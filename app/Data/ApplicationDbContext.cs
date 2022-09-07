@@ -32,7 +32,7 @@ public class ApplicationDbContext : IdentityDbContext
 
     private readonly CheckDigitService _checkDigit;
 
-    public DbSet<Property> Properties { get; set; }
+    public DbSet<Dish> Properties { get; set; }
     public DbSet<ApplicationUser> users { get; set; }
     public DbSet<LogEntry> LogEntries { get; set; }
     public DbSet<VerticalCheckDigit> VerticalCheckDigits { get; set; }
@@ -55,7 +55,7 @@ public class ApplicationDbContext : IdentityDbContext
 
         switch (type)
         {
-            case "app.Models.Property":
+            case "app.Models.Dish":
                 dbSet = Properties;
                 break;
             case "app.Models.ApplicationUser":

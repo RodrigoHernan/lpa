@@ -13,20 +13,24 @@ using app.Data;
 
 namespace app.Controllers
 {
-    [Authorize(Roles = "Administrator")]
     public class ManageUsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CheckDigitService _checkDigit;
         private readonly BackupRestore _backupRestore;
+        private readonly IClaimService _claims;
 
-        public ManageUsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context) {
+
+        public ManageUsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IClaimService claims) {
             _userManager = userManager;
             _checkDigit = new CheckDigitService(context);
             _backupRestore = new BackupRestore(context);
+            _claims = claims;
         }
 
         public async Task<IActionResult> Index() {
+            if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
             var admins = (await _userManager
                 .GetUsersInRoleAsync("Administrator"))
                 .ToArray();
@@ -46,12 +50,15 @@ namespace app.Controllers
             return View(model);
         }
 
-        public IActionResult DatabaseCorruption() {
+        public async Task<IActionResult> DatabaseCorruption() {
+            if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
             return View();
         }
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DatabaseCorruptionPost(DatabaseAction databaseAction) {
+            if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
             if (databaseAction.Action == "reset_dv") {
                 _checkDigit.ResetDV();
@@ -74,6 +81,7 @@ namespace app.Controllers
         }
 
         public async Task<IActionResult> Backup(bool ShowBackup=true) {
+            if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
 
 
@@ -86,6 +94,8 @@ namespace app.Controllers
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RestorePost(RestoreAction restoreAction) {
+            if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
+
             await _backupRestore.Restore(restoreAction.RestoreId);
             return View("Message", new MessageViewModel() {Message="Restore realizado"});
         }

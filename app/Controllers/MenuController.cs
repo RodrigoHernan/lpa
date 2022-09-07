@@ -9,20 +9,21 @@ namespace app.Controllers;
 
 public class MenuController : Controller
 {
-    private readonly IPropertyService _propertyService;
+    private readonly IDishService _dishService;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public MenuController(IPropertyService propertyService, UserManager<ApplicationUser> userManager)
+    public MenuController(IDishService dishService,
+                          UserManager<ApplicationUser> userManager)
     {
-        _propertyService = propertyService;
+        _dishService = dishService;
         _userManager = userManager;
     }
 
     public async Task<IActionResult> Index()
     {
-        var items = await _propertyService.GetProperties();
+        var items = await _dishService.GetDishes();
 
-        var model = new PropertyViewModel(){ Items = items };
+        var model = new DishViewModel(){ Items = items };
 
         return View(model);
     }
@@ -32,12 +33,12 @@ public class MenuController : Controller
     {
         //conver id to Guid
         var guid = Guid.Parse(id);
-        var item = await _propertyService.GetProperty(guid);
-        Property[] properties = new Property[1];
+        var item = await _dishService.GetDish(guid);
+        Dish[] properties = new Dish[1];
         properties[0] = item;
 
 
-        var model = new PropertyViewModel() { Items = properties };
+        var model = new DishViewModel() { Items = properties };
 
         return View(model);
     }
@@ -48,9 +49,9 @@ public class MenuController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return Challenge();
 
-        var items = await _propertyService.GetUserProperties(currentUser);
+        var items = await _dishService.GetDishes(currentUser);
 
-        var model = new PropertyViewModel()
+        var model = new DishViewModel()
         {
             Items = items
         };
@@ -59,7 +60,7 @@ public class MenuController : Controller
     }
 
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddProperty(Property newProperty)
+    public async Task<IActionResult> AddDish(Dish newDish)
     {
         if (!ModelState.IsValid)
         {
@@ -68,7 +69,7 @@ public class MenuController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return Challenge();
 
-        var successful = await _propertyService.AddPropertyAsync(newProperty, currentUser);
+        var successful = await _dishService.AddDishAsync(newDish, currentUser);
         if (!successful)
         {
             return BadRequest("Could not add item.");
