@@ -12,8 +12,8 @@ using app.Data;
 namespace App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220907145414_initial")]
-    partial class initial
+    [Migration("20220915154630_initialv2")]
+    partial class initialv2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,10 +54,6 @@ namespace App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("Created")
                         .HasColumnType("datetimeoffset");
 
@@ -68,16 +64,10 @@ namespace App.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HouseSize")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rooms")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Taxes")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

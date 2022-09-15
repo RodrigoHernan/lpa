@@ -12,15 +12,17 @@
 
 <div class="row">
     @if (Model.ShowBackup == true) {
-    Backup:
-    @Html.Partial(
-        "ExecuteDatabaseAction",
-        new DatabaseAction(){Action="backup"},
-        new ViewDataDictionary(ViewData) {
-            { "Action", "Realizar backup"},
-            {"btn", "btn-primary"}
-            }
-        );
+    <div>
+        Backup:
+        @await Html.PartialAsync(
+            "ExecuteDatabaseAction",
+            new DatabaseAction(){Action="backup"},
+            new ViewDataDictionary(ViewData) {
+                { "Action", "Realizar backup"},
+                {"btn", "btn-primary"}
+                }
+            )
+    </div>
     }
     Restore:
         @await Html.PartialAsync(

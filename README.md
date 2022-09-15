@@ -2,10 +2,15 @@
 
 para instalar requisitos de desarrollador, ver: [./docs/dependencias_de_desarrollador.md](./docs/dependencias_de_desarrollador.md)
 
+## Prerequisitos
+ - sql server
+ - dotnet o lo que quieran usar para ejecutar el proyecto
+
 ## Correr la aplicación
-~~~
-make install-dev
-~~~
+ - Crear una base de datos ej `app`
+ - Crear el archivo app/appsettings.json se puede usar el archivo app/appsettings.json.tamplate como ejemplo
+ - al iniciar la primera vez se creara la base de datos
+ - Reiniciar la aplicación (I know it's a bullshit) y se creara un usuario admin@gmail.com con contraseña P@ssw0rd
 
 
 # Misc
@@ -54,6 +59,7 @@ make install
  [*] Usuario, familia, patente
  [ ] Web service simple
  [*] API AJAX
+ [*] Agregar backup
  [ ] Descargar / generar un archivo XML con los datos de una tabla
 
 

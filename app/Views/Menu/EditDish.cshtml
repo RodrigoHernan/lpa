@@ -1,0 +1,26 @@
+@model Dish
+
+<form id='menuForm'  asp-action="EditDish" method="POST" class="row g-3" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+	<div class="mb-3">
+		<label asp-for="Title" for="Title" class="form-label">Titulo</label>
+		<input asp-for="Title" class="form-control" id="Title" value="@Model.Title" />
+	</div>
+	<div class="row">
+		<div class="col-md-6 mb-3">
+			<label asp-for="Price" for="Price" class="form-label">Precio</label>
+			<input asp-for="Price" class="form-control" id="Price" value="@Model.Price" />
+		</div>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Description" for="Description"  class="form-label">Descripción</label>
+		<textarea asp-for="Description" class="form-control" id="Description" value="@Model.Description" rows="3"></textarea>
+	</div>
+	<div class="mb-3">
+		<label asp-for="ImageFile" for="Description"  class="control-label">Imagen</label>
+		<input asp-for="ImageFile" accept="image/*" id="Description" rows="3"></textarea>
+	</div>
+    <img class="flex-auto" src="@("/images/" + Model.ImageName)" alt="Thumbnail [200x250]" style="width: 125px; height: 125px;" data-holder-rendered="true">
+
+	<button class="btn btn-primary" type="submit">Modificar</button>
+</form>

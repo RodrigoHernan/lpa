@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialv2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,11 +74,8 @@ namespace App.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    Taxes = table.Column<int>(type: "int", nullable: false),
-                    HouseSize = table.Column<int>(type: "int", nullable: false),
-                    Rooms = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DVH = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>

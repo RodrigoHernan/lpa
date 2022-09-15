@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace app.Models
 {
@@ -17,16 +19,14 @@ namespace app.Models
 
         public int Price { get; set; }
 
-        public int Taxes { get; set; }
-
-        public int HouseSize { get; set; }
-
-        public int Rooms { get; set; }
-
         public DateTimeOffset? Created { get; set; }
 
-        [Required]
-        public string City { get; set; }
+        public string? ImageName { get; set; }
+
+        [NotMapped]
+        [DisplayName("Image")]
+        public IFormFile? ImageFile { get; set; }
+
 
         public byte[]? DVH { get; set; }
 

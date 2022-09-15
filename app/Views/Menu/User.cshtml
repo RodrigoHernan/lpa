@@ -3,7 +3,7 @@
 
 
 @{
-    ViewData["Title"] = "Administra tus inmuebles";
+    ViewData["Title"] = "Administra tu Menu";
 }
 
 <div class="panel panel-default todo-panel">
@@ -12,12 +12,9 @@
   <table class="table table-hover">
       <thead>
           <tr>
-              <td>Ciudad</td>
               <td>Título</td>
               <td>Precio</td>
-              <td>Expensas</td>
-              <td>M²</td>
-              <td>Ambientes</td>
+              <td>Imagen</td>
               <td>Acciones</td>
           </tr>
       </thead>
@@ -31,13 +28,16 @@
                     <input type="hidden" name="id" value="@item.Id">
                 </form>
               </td> *@
-              <td>@item.City</td>
               <td>@item.Title</td>
               <td>@item.Price</td>
-              <td>@item.Taxes</td>
-              <td>@item.HouseSize</td>
-              <td>@item.Rooms</td>
-              <td>Modificar | Eliminar</td>
+              <td>@item.ImageName</td>
+              <td>
+                    <a asp-action="EditDish" asp-route-id="@item.Id">Editar</a>  |
+                    <form asp-action="Delete">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                </td>
           </tr>
       }
 </table>

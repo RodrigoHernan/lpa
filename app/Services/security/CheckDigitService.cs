@@ -122,7 +122,7 @@ namespace app.Services
             foreach (PropertyDescriptor propertyDescriptor in TypeDescriptor.GetProperties(tipoEntidad)) {
                 var fieldMarkedForRc = propertyDescriptor.Attributes;
 
-                if (fieldMarkedForRc != null && propertyDescriptor.Name != "DVH") {
+                if (fieldMarkedForRc != null && propertyDescriptor.Name != "DVH" && propertyDescriptor.PropertyType != typeof(IFormFile)) {
                     //TODO: Verificar el orden de los campos
                     var propertyValueSerialized = Convert.ToString(propertyDescriptor.GetValue(entidad) ?? string.Empty);
                     seed.Append(propertyValueSerialized);
@@ -152,6 +152,8 @@ namespace app.Services
         } else {
             var entidadesMarcadasParaAgregar = _context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
             var entidadesMarcadasParaModificar = _context.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList();
+            var entidadesMarcadasParaBorrar = _context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted).ToList();
+            grupoDeEntidadesAfectadas = entidadesMarcadasParaBorrar.Select(e => e.Entity.GetType()).Distinct().ToList();
             entries = entidadesMarcadasParaAgregar.Concat(entidadesMarcadasParaModificar);
         };
 

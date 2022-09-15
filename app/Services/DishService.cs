@@ -23,7 +23,7 @@ namespace app.Services
 
         Task<bool> UpdateDishAsync(Dish dish);
 
-
+        bool DishExists(Guid id);
     }
 
     public class DishService : IDishService
@@ -31,9 +31,12 @@ namespace app.Services
         private readonly ApplicationDbContext _context;
         private readonly ILoggerService _logger;
 
-        public DishService(ApplicationDbContext context, ILoggerService logger) {
+        private readonly IWebHostEnvironment _IWebHostEnvironment;
+
+        public DishService(ApplicationDbContext context, ILoggerService logger, IWebHostEnvironment IWebHostEnvironment) {
             _context = context;
             _logger = logger;
+            _IWebHostEnvironment = IWebHostEnvironment;
         }
 
         public async Task<Dish[]> GetDishes(ApplicationUser user)
@@ -53,6 +56,7 @@ namespace app.Services
 
         public async Task<bool> AddDishAsync(Dish newDish, ApplicationUser user)
         {
+            await saveImage(newDish);
             await _logger.Log(LogLevel.Debug, $"Adding dish {newDish.Title}", user);
             newDish.Id = Guid.NewGuid();
             newDish.Created = DateTimeOffset.Now;
@@ -62,6 +66,24 @@ namespace app.Services
 
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
+        }
+
+        private async Task<bool> saveImage(Dish newDish)
+        {
+            //save image to wwwroot/image
+            string wwwRootPath = _IWebHostEnvironment.WebRootPath;
+            string filename = Path.GetFileNameWithoutExtension(newDish.ImageFile.FileName);
+            string extension = Path.GetExtension(newDish.ImageFile.FileName);
+
+            filename = filename + DateTime.Now.ToString("yymmssfff") + extension;
+            newDish.ImageName = filename;
+            string path = Path.Combine(wwwRootPath + "/images/", filename);
+
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await newDish.ImageFile.CopyToAsync(fileStream);
+            }
+            return true;
         }
 
         public async Task<Dish> GetDish(Guid id){
@@ -80,6 +102,10 @@ namespace app.Services
             }
             _context.Dishes.Remove(item);
             var saveResult = await _context.SaveChangesAsync();
+            // delete image from wwwroot/image
+            var imagePath = Path.Combine(_IWebHostEnvironment.WebRootPath, "images", item.ImageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
             return saveResult == 1;
         }
 
@@ -91,13 +117,30 @@ namespace app.Services
             {
                 return false;
             }
+            if (dish.ImageFile != null)
+            {
+                await saveImage(dish);
+                item.ImageName = dish.ImageName;
+            } else
+            {
+                dish.ImageName = item.ImageName;
+            }
             item.Title = dish.Title;
             item.Description = dish.Description;
             item.Price = dish.Price;
-            item.Rooms = dish.Rooms;
 
             var saveResult = await _context.SaveChangesAsync();
             return saveResult == 1;
+        }
+
+        public bool DishExists(Guid id)
+        {
+            var Dish = GetDish(id);
+            if (Dish == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
