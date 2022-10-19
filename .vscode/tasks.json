@@ -22,21 +22,33 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "database",
-            "type": "shell",
-            "command": "./scripts/run-db.sh",
-            "group": "database",
-            "presentation": {
-              "reveal": "always",
-              "panel": "new"
-            }
-        },
-        {
-            "label": "prelaunch",
-            "dependsOn": [
-                "database",
+            "label": "build_microservice",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
                 "build",
-            ]
+                "${workspaceFolder}/microservicios/serverInfo/serverInfo.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
         }
+        // {
+        //     "label": "database",
+        //     "type": "shell",
+        //     "command": "./scripts/run-db.sh",
+        //     "group": "database",
+        //     "presentation": {
+        //       "reveal": "always",
+        //       "panel": "new"
+        //     }
+        // },
+        // {
+        //     "label": "prelaunch",
+        //     "dependsOn": [
+        //         "database",
+        //         "build",
+        //     ]
+        // }
     ]
 }

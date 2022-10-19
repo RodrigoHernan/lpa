@@ -200,6 +200,8 @@ namespace app.Services
             {
                 var entityName = affectedGroupType.FullName;
                 var checksum = this.CalculateDigitoVerificadorVertical(affectedGroupType);
+                if (checksum == null) continue;
+
                 var digitoVerificadorVerticalDbSet = _context.Set<VerticalCheckDigit>();
                 var vcd = digitoVerificadorVerticalDbSet.Find(entityName);
                 if (vcd == null)
@@ -214,11 +216,13 @@ namespace app.Services
         }
     }
 
-    private byte[] CalculateDigitoVerificadorVertical(string fullNameEntityType) {
+    private byte[]? CalculateDigitoVerificadorVertical(string fullNameEntityType) {
         var crcs = new List<byte[]>();
-        IQueryable<IEntidadConDigitoVerificador> dbSet = (IQueryable<IEntidadConDigitoVerificador>) _context.GetDbSet(fullNameEntityType);
+        var dbSet = _context.GetDbSet(fullNameEntityType) as IQueryable<IEntidadConDigitoVerificador>;
+        if (dbSet == null){
+            return null;
+        }
         dbSet.ToList().ForEach(entity => crcs.Add(entity.DVH));
-
         var verticalChecksum = this.CalcularDigitoVerificadorDesdeMultiplesDigitos(crcs);
         return verticalChecksum;
     }

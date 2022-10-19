@@ -455,3 +455,4 @@ $RECYCLE.BIN/
 *.db
 appsettings.json
 app/wwwroot/images/*
+!app/wwwroot/images/.gitkeep

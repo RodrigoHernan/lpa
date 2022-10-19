@@ -67,6 +67,24 @@ public class ApplicationDbContext : IdentityDbContext
             case "app.Models.VerticalCheckDigit":
                 dbSet = VerticalCheckDigits;
                 break;
+            case "app.Models.BackupModel":
+                dbSet = Backups;
+                break;
+            case "app.Models.Familia_Patente":
+                dbSet = FamiliasPatente;
+                break;
+            case "app.Models.Permiso":
+                dbSet = Permisos;
+                break;
+            case "app.Models.FamiliaModel":
+                dbSet = Familias;
+                break;
+            case "app.Models.Patente":
+                dbSet = Patentes;
+                break;
+            case "app.Models.UserPermission":
+                dbSet = UserPermissions;
+                break;
             default:
                 dbSet = null;
                 break;

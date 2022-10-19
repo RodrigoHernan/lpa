@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": ".NET Core Launch (web)",
+        "name": "web",
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
@@ -13,17 +13,40 @@
         "args": [],
         "cwd": "${workspaceFolder}/app",
         "stopAtEntry": false,
-        "serverReadyAction": {
-          "action": "openExternally",
-          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-        },
+        // "serverReadyAction": {
+        //   "action": "openExternally",
+        //   "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        // },
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development"
         },
         "sourceFileMap": {
           "/Views": "${workspaceFolder}/app/Views"
         }
+      },
+      {
+        "name": "microservice",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build_microservice",
+        "program": "${workspaceFolder}/microservicios/serverInfo/bin/Debug/net6.0/serverInfo.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/microservicios/serverInfo",
+        "stopAtEntry": false,
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "sourceFileMap": {
+          "/Views": "${workspaceFolder}/microservicios/serverInfo/Views"
+        }
       }
-
+    ],
+    "compounds": [
+      {
+        "name": "web/microservice",
+        "configurations": ["web", "microservice"],
+        // "preLaunchTask": "${defaultBuildTask}",
+        "stopAll": true
+      }
     ]
 }

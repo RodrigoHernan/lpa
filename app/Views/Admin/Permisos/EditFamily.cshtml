@@ -30,7 +30,7 @@
     <div
         id="patentes"
         hx-ext="client-side-templates"
-        hx-trigger="load, patentes-updated from:body"
+        hx-trigger="load, item-updated from:body"
         nunjucks-template="Admin/EditFamily/patentes.html"
         hx-get="/api/FamiliaApi/@Model.Id/patentes/"
     >

@@ -155,6 +155,7 @@ namespace app.Controllers
             }
 
             await _context.SaveChangesAsync();
+            HttpContext.Response.Headers.Add("HX-Trigger", "item-updated");
             return RedirectToAction(nameof(Index));
         }
 

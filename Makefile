@@ -53,3 +53,7 @@ bulk-code:
 	scripts/bulk_code.py "app/Services" > .idea/bulk_code/Services.txt
 	scripts/bulk_code.py "app/Views" > .idea/bulk_code/Views.txt
 
+create-grpc:
+## crear un microservicio Usage: make create-grpc name="nombre del microservicio" folder="SOAP"
+	cd $(folder) && dotnet new grpc -o $(name)
+
