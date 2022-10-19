@@ -1,3 +1,45 @@
+@model ServerStatusViewModel
+
 @{
     ViewData["Title"] = "Estado de los servidores";
 }
+
+<h5>Estado de los servidores</h5>
+<p>@Model.Reply.Message</p>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Ruta
+                </th>
+                <th>
+                    Espacio Libre
+                </th>
+                <th>
+                    Total espacio libre
+                </th>
+                <th>
+                    Tamaño Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Reply.Disks) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AvailableFreeSpace)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalFreeSpace)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalSize)
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>

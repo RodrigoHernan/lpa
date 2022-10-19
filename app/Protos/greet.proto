@@ -1,6 +1,7 @@
+// https://learn.microsoft.com/en-us/aspnet/core/tutorials/grpc/grpc-start?view=aspnetcore-6.0&tabs=visual-studio-code
 syntax = "proto3";
 
-option csharp_namespace = "serverInfo";
+option csharp_namespace = "ServerStatusClient";
 
 package greet;
 
