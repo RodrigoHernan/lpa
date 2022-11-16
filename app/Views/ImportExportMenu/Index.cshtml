@@ -1,0 +1,27 @@
+@model DishViewModel
+@using Humanizer
+
+
+@{
+    ViewData["Title"] = "Menu";
+}
+<div class="container page-container">
+  <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Importar/Exportar Menú</li>
+      </ol>
+  </nav>
+
+  <div class="mb-5">
+  <h1>Acciones disponibles</h1>
+
+  <form asp-action="Export" method="POST">
+      <button type="submit" class='btn'>Exportar</button>
+  </form>
+
+  <form asp-action="Import" method="POST">
+      <button type="submit" class='btn'>Importar</button>
+  </form>
+
+</div>

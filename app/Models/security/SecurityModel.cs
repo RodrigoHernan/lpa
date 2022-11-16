@@ -6,6 +6,8 @@ namespace app.Models
         SuperUser,
         PuedeAdministrarRolesyPermisos,
         PuedeAdministrarLogs,
+        PuedeExportarDatos,
+        PuedeImportarDatos,
     }
 
 

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace app.Models
 {
@@ -23,6 +24,7 @@ namespace app.Models
 
         public string? ImageName { get; set; }
 
+        [XmlIgnore()]
         [NotMapped]
         [DisplayName("Image")]
         public IFormFile? ImageFile { get; set; }
