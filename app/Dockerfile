@@ -3,11 +3,14 @@ COPY . /app
 WORKDIR /app
 
 RUN dotnet tool install --global dotnet-ef
-RUN dotnet tool install -g dotnet-aspnet-codegenerator
-RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+RUN dotnet tool install -g dotnet-aspnet-codegenerator --version 6.0.6
 
-RUN dotnet add package Microsoft.EntityFrameworkCore.Design
-RUN dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 6.0.5
+RUN dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 6.0.5
+
+RUN dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.6
+RUN dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.6
 
 RUN ["dotnet", "restore"]
 RUN ["dotnet", "build"]

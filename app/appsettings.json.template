@@ -1,6 +1,7 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=db;Database=master;User=sa;Password=Your_password123;MultipleActiveResultSets=true"
+    // "DefaultConnection": "Server=db;Database=master;User=sa;Password=Your_password123;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=localhost;Database=app;User=sa;Password=Your_password123;MultipleActiveResultSets=true"
   },
   "Logging": {
     "LogLevel": {

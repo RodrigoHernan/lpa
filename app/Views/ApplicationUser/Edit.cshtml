@@ -26,7 +26,7 @@
             <input type="hidden" asp-for="NormalizedEmail" />
             <div class="form-group form-check" disabled>
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EmailConfirmed" /> @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    <input class="form-check-input" asp-for="EmailConfirmed" />@Html.DisplayNameFor(model => model.EmailConfirmed)
                 </label>
             </div>
             <input type="hidden" asp-for="PasswordHash" />
@@ -53,8 +53,14 @@
                 <input asp-for="AccessFailedCount" class="form-control" />
                 <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
             </div>
+            <br/>
+            <br/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                @if (Model.LockoutEnd != null){
+                    <h1>El usuario se encuentra bloqueado!</h1>
+                    <button onclick='restablecerCuenta()' class="btn btn-warning">Restablecer cuenta</button>
+                }
             </div>
         </form>
     </div>
@@ -71,6 +77,12 @@
 <div>
     <a asp-action="Index">Volver</a>
 </div>
+
+<script>
+function restablecerCuenta(){
+    document.getElementById("LockoutEnd").value = null;
+}
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
