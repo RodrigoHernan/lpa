@@ -1,14 +1,38 @@
-@model IEnumerable<app.Models.ApplicationUser>
-
+@model ApplicationUserView
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Usuarios</h1>
 
-<p>
-    <a asp-action="Create">Crear Nuevo</a>
-</p>
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <a asp-action="Create" class="btn btn-outline-secondary">Crear Nuevo</a>
+  <div class="btn-group" role="group">
+    <form asp-controller="ImportExportMenu" asp-action="Export" method="POST">
+        <button type="submit" class='btn btn-outline-secondary'>Exportar</button>
+    </form>
+  </div>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Importar
+    </button>
+    <ul class="dropdown-menu">
+      <li class="m-3">
+        <form asp-controller="ImportExportMenu" asp-action="Import" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="XmlFile" asp-for="XmlFile" class="control-label">Archivo xml</label>
+                <input id="XmlFile" asp-for="XmlFile" type="file" name="XmlFile" required>
+            </div>
+            
+            <button type="submit" class='btn btn-primary '>Importar</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -34,7 +58,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Objects) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
@@ -63,3 +87,4 @@
 }
     </tbody>
 </table>
+

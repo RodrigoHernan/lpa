@@ -1,4 +1,4 @@
-@model DishViewModel
+@model ApplicationUserView
 @using Humanizer
 
 
@@ -9,7 +9,6 @@
   <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Importar/Exportar Menú</li>
       </ol>
   </nav>
 
@@ -20,7 +19,12 @@
       <button type="submit" class='btn'>Exportar</button>
   </form>
 
-  <form asp-action="Import" method="POST">
+  <form asp-action="Import" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+		<label for="XmlFile" asp-for="XmlFile" class="control-label">Archivo xml</label>
+		<input id="XmlFile" asp-for="XmlFile" type="file" name="XmlFile">
+	</div>
+    
       <button type="submit" class='btn'>Importar</button>
   </form>
 

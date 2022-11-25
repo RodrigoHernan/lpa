@@ -25,8 +25,11 @@ namespace app.Controllers
         // GET: ApplicationUser
         public async Task<IActionResult> Index()
         {
-              return _context.users != null ?
-                          View(await _context.users.ToListAsync()) :
+            var model = new ApplicationUserView {
+                 Objects = await _context.users.ToListAsync() 
+            };
+            return _context.users != null ?
+                          View(model) :
                           Problem("Entity set 'ApplicationDbContext.users'  is null.");
         }
 
