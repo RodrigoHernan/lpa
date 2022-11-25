@@ -69,6 +69,8 @@ namespace app.Services
         byte[] CalcularDigitoVerificadorHotizontal(IEntidadConDigitoVerificador entity);
         byte[] CalcularDigitoVerificadorDesdeMultiplesDigitos(IEnumerable<byte[]> crcs);
         bool DbCorrupta();
+
+        List<ObjetosCorruptos> GetObjetosCorruptos();
     }
 
 
@@ -91,6 +93,32 @@ namespace app.Services
                 if (!this.ValidateDVHForAllRowsInTable(verticalCheckDigit.Entity)) return true;
             }
             return false;
+        }
+
+        public List<ObjetosCorruptos> GetObjetosCorruptos() {
+            var corruptos = new List<ObjetosCorruptos>();
+            foreach (var verticalCheckDigit in _context.VerticalCheckDigits) {
+                IQueryable<IEntidadConDigitoVerificador> dbSet = (IQueryable<IEntidadConDigitoVerificador>) _context.GetDbSet(verticalCheckDigit.Entity);
+                
+                string IdsTracker =  verticalCheckDigit.IdsTracker;
+                List<string> Ids = new List<string>(IdsTracker.Split(",")); 
+                                
+                foreach (IEntidadConDigitoVerificador row in dbSet.ToList()) {
+                    if (!this.ValidateDVH(row)) 
+                        corruptos.Add(new ObjetosCorruptos{Id=row.Id, NombreTabla=verticalCheckDigit.Entity, Accion="Modificado"});
+                    Ids.RemoveAll(x => x == row.Id.ToString());
+                }
+
+                foreach (string id in Ids) {
+                    corruptos.Add(new ObjetosCorruptos {
+                        Id = new Guid(id),
+                        NombreTabla = verticalCheckDigit.Entity,
+                        Accion = "Eliminado"
+                    });
+                }
+
+            }
+            return corruptos;
         }
 
         public bool ValidateDVV(VerticalCheckDigit verticalCheckDigit) {
@@ -212,6 +240,7 @@ namespace app.Services
                 }
 
                 vcd.Checksum = checksum;
+                vcd.IdsTracker = this.GetIdsTracker(affectedGroupType.FullName);
             }
         }
     }
@@ -225,6 +254,13 @@ namespace app.Services
         dbSet.ToList().ForEach(entity => crcs.Add(entity.DVH));
         var verticalChecksum = this.CalcularDigitoVerificadorDesdeMultiplesDigitos(crcs);
         return verticalChecksum;
+    }
+
+    private string GetIdsTracker(string fullNameEntityType) {
+        var Ids = new List<string>();
+        var dbSet = _context.GetDbSet(fullNameEntityType) as IQueryable<IEntidadConDigitoVerificador>;
+        dbSet.ToList().ForEach(entity => Ids.Add(entity.Id.ToString()));
+        return string.Join(",", Ids);
     }
 
 

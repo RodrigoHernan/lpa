@@ -27,14 +27,20 @@ public class ServerStatusService : ServerStatus.ServerStatusBase
             diskSpace = diskSpace + "Disco: " + drive.Name;
             // tenes AvaibvlableFreeSpace, TotalFreeSpace, TotalSize, Name
 
-            if (drive.IsReady)
-                disks.Add(new Disk {
-                    Name = drive.Name,
-                    AvailableFreeSpace = drive.AvailableFreeSpace,
-                    TotalFreeSpace = drive.TotalFreeSpace,
-                    TotalSize = drive.TotalSize
+            if (drive.IsReady){
+                try {
+                    disks.Add(new Disk {
+                        Name = drive.Name,
+                        AvailableFreeSpace = drive.AvailableFreeSpace,
+                        TotalFreeSpace = drive.TotalFreeSpace,
+                        TotalSize = drive.TotalSize
+                    });
                 }
-            );
+                catch (Exception ex) //bloque catch para captura de error
+                {
+                    string error = ex.Message; //acción para manejar el error
+                }
+            }
         }
 
 

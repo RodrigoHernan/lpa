@@ -23,8 +23,11 @@
             var currentUser = await UserManager.GetUserAsync(User);
 
             var isAdmin = currentUser != null && await ClaimService.hasAccess(User, TipoPermiso.SuperUser);
-            if (isAdmin) {
+            var PuedeAdministrarLogs = currentUser != null && await ClaimService.hasAccess(User, TipoPermiso.PuedeAdministrarLogs);
+            if (isAdmin | PuedeAdministrarLogs) {
                 <li><a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="logs">Bitacora</a></li>
+            }
+            if (isAdmin) {
                 <li><a class="dropdown-item" asp-area="" asp-controller="ManageUsers" asp-action="Backup">Backup</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Claims">Permisos</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="ApplicationUser" asp-action="Index">Administrar usuarios</a></li>

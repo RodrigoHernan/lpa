@@ -6,6 +6,11 @@ para instalar requisitos de desarrollador, ver: [./docs/dependencias_de_desarrol
  - sql server
  - dotnet o lo que quieran usar para ejecutar el proyecto
 
+### Instalar sql server con docker para dev
+~~~
+sudo docker run --restart always -v sql-server-data:/data/opt/mssql -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Your_password123" -p 1433:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server
+~~~
+
 ## Correr la aplicación
  - Crear una base de datos ej `app`
  - Crear el archivo app/appsettings.json se puede usar el archivo app/appsettings.json.tamplate como ejemplo

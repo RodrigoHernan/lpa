@@ -1,4 +1,4 @@
-@model MessageViewModel
+@model ObjetosCorruptosViewModel
 
 @{
     ViewData["Title"] = "Corrupción en la base de datos";
@@ -8,9 +8,42 @@
 
 <p>
     Lamentamos informarle que hubo un error en los datos verificadores en la base de datos<br>
-    que desea hacer:
+    se detectarón las siguientes anomalias: 
 </p>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Objeto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Objects[0].NombreTabla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Objects[0].Accion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Objects) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreTabla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Accion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2 class="mt-5" >Que acción desea realizar:</h2>
 <div class="row">
     @await Html.PartialAsync(
         "ExecuteDatabaseAction",
