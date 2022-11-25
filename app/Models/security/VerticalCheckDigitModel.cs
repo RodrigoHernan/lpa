@@ -7,5 +7,8 @@ namespace app.Models
         [Key]
         public string Entity { get; set; }
         public byte[] Checksum { get; set; }
+
+        public string IdsTracker { get; set; }
+
     }
 }

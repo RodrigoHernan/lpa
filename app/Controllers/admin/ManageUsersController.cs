@@ -20,7 +20,6 @@ namespace app.Controllers
         private readonly BackupRestore _backupRestore;
         private readonly IClaimService _claims;
 
-
         public ManageUsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IClaimService claims) {
             _userManager = userManager;
             _checkDigit = new CheckDigitService(context);
@@ -53,7 +52,10 @@ namespace app.Controllers
         public async Task<IActionResult> DatabaseCorruption() {
             if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeAdministrarRolesyPermisos)) return Redirect("/Identity/Account/AccessDenied");
 
-            return View();
+            List<ObjetosCorruptos> objetosCorruptos =  _checkDigit.GetObjetosCorruptos();
+            
+            var model = new ObjetosCorruptosViewModel(){ Objects = objetosCorruptos};
+            return View(model);
         }
 
         [ValidateAntiForgeryToken]
