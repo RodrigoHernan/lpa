@@ -42,8 +42,12 @@ public class ImportExportMenuController : Controller
     {
         if (!await _claims.hasAccess(HttpContext.User, TipoPermiso.PuedeExportarDatos)) return Redirect("/Identity/Account/AccessDenied");
 
-        var items = await _dishService.GetDishes();
+        var items = _userManager.Users;
         var xmlDoc = new XmlDocument();
+
+        var type2 = (await _dishService.GetDishes()).GetType();
+
+        var type = items.GetType();
 
         var xmlSerializer = new XmlSerializer(items.GetType());
 
