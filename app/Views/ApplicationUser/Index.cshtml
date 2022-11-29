@@ -45,6 +45,9 @@
             <th class="d-none d-lg-table-cell">
                 Intento de acceso fallidos
             </th>
+            <th class="d-none d-lg-table-cell">
+                Teléfono
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -60,10 +63,15 @@
             <td class="d-none d-lg-table-cell">
                 @Html.DisplayFor(modelItem => item.AccessFailedCount)
             </td>
+            <td class="d-none d-lg-table-cell">
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-secondary">Eliminar</a>   
+                </div>
             </td>
         </tr>
 }
